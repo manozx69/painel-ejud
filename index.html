@@ -49,8 +49,25 @@
 #ejud-gerador .eg-lucide-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#0D8F3E;margin-top:6px;text-decoration:none;font-weight:600}
 /* Preview area */
 #ejud-gerador .eg-prev{max-width:100%}
+/* Info blocks */
+#ejud-gerador .eg-block{background:#fff;border:1px solid #DDE1E8;border-radius:12px;margin-bottom:10px;overflow:hidden;transition:box-shadow .15s}
+#ejud-gerador .eg-block.dragging{opacity:0.5;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
+#ejud-gerador .eg-block.drag-over{border-color:#0D8F3E;box-shadow:0 0 0 2px rgba(13,143,62,0.2)}
+#ejud-gerador .eg-block-head{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#F7F8FA;border-bottom:1px solid #DDE1E8;cursor:grab;user-select:none}
+#ejud-gerador .eg-block-head:active{cursor:grabbing}
+#ejud-gerador .eg-block-type{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#0D8F3E;background:rgba(13,143,62,0.1);padding:3px 8px;border-radius:4px}
+#ejud-gerador .eg-block-actions{margin-left:auto;display:flex;gap:4px}
+#ejud-gerador .eg-block-actions button{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid #DDE1E8;border-radius:6px;background:#fff;cursor:pointer;padding:0}
+#ejud-gerador .eg-block-actions button:hover{background:#F7F8FA}
+#ejud-gerador .eg-block-body{padding:14px 16px}
+#ejud-gerador .eg-img-row{display:flex;gap:8px;margin-bottom:8px;align-items:end}
+#ejud-gerador .eg-img-row .eg-input{flex:1}
+#ejud-gerador .eg-img-grid-sel{display:flex;gap:4px;margin-bottom:10px}
+#ejud-gerador .eg-img-grid-sel button{padding:4px 10px;font-size:10px;font-weight:700;border:1px solid #DDE1E8;border-radius:5px;background:#fff;cursor:pointer;font-family:'Archivo',sans-serif;color:#6B7789}
+#ejud-gerador .eg-img-grid-sel button.sel{background:#0D8F3E;color:#fff;border-color:#0D8F3E}
+#ejud-gerador .eg-drag-handle{color:#8E99A8;display:flex;align-items:center}
 /* Responsive */
-@media(max-width:768px){#ejud-gerador .eg-grid{grid-template-columns:1fr}#ejud-gerador .eg-wide{grid-column:1}#ejud-gerador .eg-tabs{overflow-x:auto}#ejud-gerador .eg-row{grid-template-columns:1fr}}
+@media(max-width:768px){#ejud-gerador .eg-grid{grid-template-columns:1fr}#ejud-gerador .eg-wide{grid-column:1}#ejud-gerador .eg-tabs{overflow-x:auto;flex-wrap:nowrap}#ejud-gerador .eg-row{grid-template-columns:1fr}#ejud-gerador .eg-block-head{flex-wrap:wrap}}
 </style>
 
 <div class="eg-header">
@@ -71,6 +88,9 @@ Google Meet</button>
 <button class="eg-tab" data-tab="video" onclick="egTab('video')">
 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9z"/></svg>
 Vídeo / Aula</button>
+<button class="eg-tab" data-tab="info" onclick="egTab('info')">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+Informações</button>
 </div>
 
 <!-- ====== BANNER TAB ====== -->
@@ -169,6 +189,23 @@ Vídeo / Aula</button>
 <div class="eg-prev" id="prev-video"></div>
 </div>
 
+<!-- ====== INFO TAB ====== -->
+<div class="eg-tab-content" id="tab-info">
+<div class="eg-card">
+<div class="eg-card-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg> Construtor de Informações</div>
+<p class="eg-hint" style="margin-bottom:16px">Adicione blocos de título, mensagem e imagem. Arraste ou use as setas para reorganizar a ordem.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+<button class="eg-add" onclick="egInfoAdd('titulo')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Título</button>
+<button class="eg-add" onclick="egInfoAdd('mensagem')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Mensagem</button>
+<button class="eg-add" onclick="egInfoAdd('imagem')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Imagem</button>
+</div>
+<div id="info-blocks"></div>
+</div>
+<div class="eg-copy-wrap"><button class="eg-copy" onclick="egCopy('info')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h13v13H9z"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar HTML para Moodle</button></div>
+<div class="eg-preview-tag">PREVIEW</div>
+<div class="eg-prev" id="prev-info"></div>
+</div>
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Archivo:wght@300;400;500;600;700&display=swap">
 <script>
 (function(){
@@ -225,7 +262,13 @@ bell:'M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9|M13.73 21a2 2 0 0 1-3.46 0',
 'external-link':'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6|M15 3h6v6|M10 14L21 3',
 download:'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4|M7 10l5 5 5-5|M12 15V3',
 'file-check':'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z|M14 2v6h6|M9 15l2 2 4-4',
-search:'M3 11a8 8 0 1 0 16 0a8 8 0 1 0-16 0Z|M21 21l-4.35-4.35'
+search:'M3 11a8 8 0 1 0 16 0a8 8 0 1 0-16 0Z|M21 21l-4.35-4.35',
+'chevron-up':'M18 15l-6-6-6 6',
+'chevron-down':'M6 9l6 6 6-6',
+grip:'M9 4h.01|M9 8h.01|M9 12h.01|M9 16h.01|M9 20h.01|M15 4h.01|M15 8h.01|M15 12h.01|M15 16h.01|M15 20h.01',
+copy:'M9 9h13v13H9z|M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1',
+check:'M20 6L9 17l-5-5',
+trash:'M3 6h18|M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6|M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'
 };
 var CURATED=[
 ['scale','Balança'],['shield','Segurança'],['brain','IA'],['book','Educação'],['lock','LGPD'],
@@ -355,6 +398,7 @@ function egUpdatePreview(tab){
   else if(tab==='aviso')prevAviso();
   else if(tab==='meet')prevMeet();
   else if(tab==='video')prevVideo();
+  else if(tab==='info')prevInfo();
 }
 
 // Auto-update previews on input
@@ -456,6 +500,133 @@ function genVideo(forCopy){
 }
 function prevVideo(){document.getElementById('prev-video').innerHTML=genVideo(false)}
 
+// ===== INFO BLOCKS =====
+window.infoBlocks=[];
+var infoBlocks=window.infoBlocks;
+var dragIdx=null;
+
+window.egInfoAdd=function(type){
+  if(type==='titulo') infoBlocks.push({type:'titulo',value:''});
+  else if(type==='mensagem') infoBlocks.push({type:'mensagem',value:''});
+  else if(type==='imagem') infoBlocks.push({type:'imagem',urls:[''],grid:2});
+  renderInfoBlocks();
+};
+
+window.egInfoMove=function(from,dir){
+  var to=from+dir;
+  if(to<0||to>=infoBlocks.length)return;
+  var tmp=infoBlocks[from];infoBlocks[from]=infoBlocks[to];infoBlocks[to]=tmp;
+  renderInfoBlocks();
+};
+
+window.egInfoDel=function(i){infoBlocks.splice(i,1);renderInfoBlocks()};
+
+window.egInfoVal=function(i,val){infoBlocks[i].value=val};
+
+window.egInfoGrid=function(i,g){infoBlocks[i].grid=g;renderInfoBlocks()};
+
+window.egInfoImgAdd=function(i){infoBlocks[i].urls.push('');renderInfoBlocks()};
+
+window.egInfoImgDel=function(i,j){infoBlocks[i].urls.splice(j,1);if(infoBlocks[i].urls.length===0)infoBlocks[i].urls=[''];renderInfoBlocks()};
+
+window.egInfoImgVal=function(i,j,val){infoBlocks[i].urls[j]=val};
+
+function renderInfoBlocks(){
+  var c=document.getElementById('info-blocks');if(!c)return;
+  var arrowUp=svg('chevron-up',14,'#6B7789');
+  var arrowDn=svg('chevron-down',14,'#6B7789');
+  var trashIc=svg('trash',14,'#C53030');
+  var gripIc='<span class="eg-drag-handle">'+svg('grip',14,'#8E99A8')+'</span>';
+  var h='';
+  infoBlocks.forEach(function(bl,i){
+    var typeLabel=bl.type==='titulo'?'TÍTULO':bl.type==='mensagem'?'MENSAGEM':'IMAGEM';
+    h+='<div class="eg-block" draggable="true" data-idx="'+i+'" ondragstart="egDragStart(event,'+i+')" ondragover="egDragOver(event)" ondragenter="egDragEnter(event)" ondragleave="egDragLeave(event)" ondrop="egDrop(event,'+i+')" ondragend="egDragEnd(event)">';
+    h+='<div class="eg-block-head">'+gripIc+' <span class="eg-block-type">'+typeLabel+'</span>';
+    h+='<div class="eg-block-actions">';
+    if(i>0) h+='<button onclick="egInfoMove('+i+',-1)" title="Subir">'+arrowUp+'</button>';
+    if(i<infoBlocks.length-1) h+='<button onclick="egInfoMove('+i+',1)" title="Descer">'+arrowDn+'</button>';
+    h+='<button onclick="egInfoDel('+i+')" title="Remover">'+trashIc+'</button>';
+    h+='</div></div>';
+    h+='<div class="eg-block-body">';
+    if(bl.type==='titulo'){
+      h+='<input class="eg-input" value="'+(bl.value||'').replace(/"/g,'&quot;')+'" placeholder="Digite o título" oninput="egInfoVal('+i+',this.value)">';
+    } else if(bl.type==='mensagem'){
+      h+='<textarea class="eg-textarea" placeholder="Digite a mensagem" oninput="egInfoVal('+i+',this.value)">'+(bl.value||'')+'</textarea>';
+    } else if(bl.type==='imagem'){
+      h+='<label class="eg-label">Grid de imagens</label>';
+      h+='<div class="eg-img-grid-sel">';
+      [1,2,3,4].forEach(function(g){
+        h+='<button class="'+(bl.grid===g?'sel':'')+'" onclick="egInfoGrid('+i+','+g+')">'+g+(g===1?' coluna':' colunas')+'</button>';
+      });
+      h+='</div>';
+      bl.urls.forEach(function(url,j){
+        h+='<div class="eg-img-row"><input class="eg-input" value="'+(url||'').replace(/"/g,'&quot;')+'" placeholder="Link da imagem (URL)" oninput="egInfoImgVal('+i+','+j+',this.value)">';
+        if(bl.urls.length>1) h+='<button class="eg-del" style="margin-top:0" onclick="egInfoImgDel('+i+','+j+')">'+trashIc+'</button>';
+        h+='</div>';
+      });
+      h+='<button class="eg-add" style="margin-top:6px" onclick="egInfoImgAdd('+i+')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Adicionar imagem</button>';
+    }
+    h+='</div></div>';
+  });
+  c.innerHTML=h;
+  egUpdatePreview('info');
+}
+
+// Drag & Drop
+window.egDragStart=function(e,i){dragIdx=i;e.target.classList.add('dragging');e.dataTransfer.effectAllowed='move'};
+window.egDragOver=function(e){e.preventDefault();e.dataTransfer.dropEffect='move'};
+window.egDragEnter=function(e){e.preventDefault();var bl=e.target.closest('.eg-block');if(bl)bl.classList.add('drag-over')};
+window.egDragLeave=function(e){var bl=e.target.closest('.eg-block');if(bl)bl.classList.remove('drag-over')};
+window.egDrop=function(e,i){
+  e.preventDefault();
+  var bl=e.target.closest('.eg-block');if(bl)bl.classList.remove('drag-over');
+  if(dragIdx===null||dragIdx===i)return;
+  var tmp=infoBlocks[dragIdx];infoBlocks.splice(dragIdx,1);infoBlocks.splice(i,0,tmp);
+  dragIdx=null;renderInfoBlocks();
+};
+window.egDragEnd=function(e){e.target.classList.remove('dragging');dragIdx=null};
+
+// ===== INFO GEN =====
+function genInfo(forCopy){
+  var id=forCopy?'ejud-info-'+Date.now():'ejud-prev-info';
+  var html='<div class="ei-card">';
+  infoBlocks.forEach(function(bl){
+    if(bl.type==='titulo'&&bl.value){
+      html+='<h2 class="ei-title">'+bl.value+'</h2>';
+    } else if(bl.type==='mensagem'&&bl.value){
+      html+='<div class="ei-msg">'+bl.value.replace(/\n/g,'<br>')+'</div>';
+    } else if(bl.type==='imagem'){
+      var imgs=bl.urls.filter(function(u){return u});
+      if(imgs.length){
+        html+='<div class="ei-imgs ei-grid-'+bl.grid+'">';
+        imgs.forEach(function(url){
+          html+='<div class="ei-img-wrap"><img src="'+url+'" alt="" class="ei-img"></div>';
+        });
+        html+='</div>';
+      }
+    }
+  });
+  html+='<div class="ei-footer"><span>'+FOOTER+'</span></div>';
+  html+='</div>';
+  var css='#I .ei-card{max-width:800px;margin:0 auto;border-radius:12px;overflow:hidden;background:#fff;border:1px solid #DDE1E8;padding:32px 28px}';
+  css+='#I .ei-title{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:26px;color:#0A2E1B;margin:0 0 16px;line-height:1.3}';
+  css+='#I .ei-msg{font-size:15px;line-height:1.8;color:#3A4555;margin:0 0 20px}';
+  css+='#I .ei-imgs{display:grid;gap:12px;margin:0 0 20px}';
+  css+='#I .ei-grid-1{grid-template-columns:1fr}';
+  css+='#I .ei-grid-2{grid-template-columns:1fr 1fr}';
+  css+='#I .ei-grid-3{grid-template-columns:1fr 1fr 1fr}';
+  css+='#I .ei-grid-4{grid-template-columns:1fr 1fr 1fr 1fr}';
+  css+='#I .ei-img-wrap{border-radius:8px;overflow:hidden;background:#F7F8FA;border:1px solid #DDE1E8}';
+  css+='#I .ei-img{width:100%;height:auto;display:block;object-fit:cover}';
+  css+='#I .ei-footer{padding:12px 0 0;border-top:1px solid #DDE1E8;margin-top:20px}';
+  css+='#I .ei-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}';
+  css+='@media(max-width:600px){#I .ei-grid-3,#I .ei-grid-4{grid-template-columns:1fr 1fr}#I .ei-title{font-size:22px}}';
+  css+='@media(max-width:400px){#I .ei-grid-2,#I .ei-grid-3,#I .ei-grid-4{grid-template-columns:1fr}}';
+  css=css.replace(/#I /g,'#'+id+' ').replace(/#I\./g,'#'+id+' .').replace(/#I{/g,'#'+id+'{');
+  return wrap(id,html,css);
+}
+function prevInfo(){document.getElementById('prev-info').innerHTML=genInfo(false)}
+
 // ===== COPY =====
 window.egCopy=function(type){
   var html;
@@ -463,6 +634,7 @@ window.egCopy=function(type){
   else if(type==='aviso')html=genAviso(true);
   else if(type==='meet')html=genMeet(true);
   else if(type==='video')html=genVideo(true);
+  else if(type==='info')html=genInfo(true);
   navigator.clipboard.writeText(html).then(function(){
     var btn=document.querySelector('#tab-'+type+' .eg-copy');
     btn.classList.add('ok');btn.innerHTML=svg('check',14,'#fff')+' Copiado!';
@@ -472,7 +644,7 @@ window.egCopy=function(type){
 
 // ===== INIT =====
 renderIconSelector();renderBtns();renderInst();renderMat();
-prevBanner();prevAviso();prevMeet();prevVideo();
+prevBanner();prevAviso();prevMeet();prevVideo();prevInfo();
 })();
 </script>
 </div>
