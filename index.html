@@ -249,9 +249,12 @@ function svg(name,size,color,sw){
 
 // ===== STATE =====
 var selectedIcon='scale';
-var bnButtons=[{label:'Inscreva-se',link:'#'}];
-var vdInst=[{nome:'',info:''}];
-var vdMat=[{nome:'',link:''}];
+window.bnButtons=[{label:'',link:''}];
+window.vdInst=[{nome:'',info:''}];
+window.vdMat=[{nome:'',link:''}];
+var bnButtons=window.bnButtons;
+var vdInst=window.vdInst;
+var vdMat=window.vdMat;
 
 // ===== TABS =====
 window.egTab=function(id){
