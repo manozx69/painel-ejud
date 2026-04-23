@@ -135,6 +135,10 @@ Informações</button>
 <div><label class="eg-label">Prazo (opcional)</label><input class="eg-input" id="av-prazo" placeholder="Ex: 30/09/2025"></div>
 <div class="eg-wide"><label class="eg-label">Título</label><input class="eg-input" id="av-titulo" value="Início das Inscrições"></div>
 <div class="eg-wide"><label class="eg-label">Mensagem</label><textarea class="eg-textarea" id="av-msg" style="min-height:96px">As inscrições para o curso PROJUDI Avançado estão abertas. Acesse o AVA EJUD para se inscrever.</textarea></div>
+<div><label class="eg-label">Data (opcional)</label><input class="eg-input" id="av-data" placeholder="Ex: 22 de Setembro de 2025"></div>
+<div><label class="eg-label">Horário (opcional)</label><input class="eg-input" id="av-horario" placeholder="Ex: 9h às 12h"></div>
+<div><label class="eg-label">Local (opcional)</label><input class="eg-input" id="av-local" placeholder="Ex: AVA EJUD"></div>
+<div><label class="eg-label">Período (opcional)</label><input class="eg-input" id="av-periodo" placeholder="Ex: 22/09 — 15/12/2025"></div>
 </div>
 </div>
 <div class="eg-copy-wrap"><button class="eg-copy" onclick="egCopy('aviso')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h13v13H9z"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar HTML para Moodle</button></div>
@@ -176,7 +180,8 @@ Informações</button>
 <div><label class="eg-label">Módulo (opcional)</label><input class="eg-input" id="vd-modulo" placeholder="Ex: Módulo 1"></div>
 <div><label class="eg-label">Aula (opcional)</label><input class="eg-input" id="vd-aula" placeholder="Ex: Aula 3"></div>
 <div class="eg-wide"><label class="eg-label">Data da Aula (opcional)</label><input class="eg-input" id="vd-data" placeholder="Ex: 22 de Setembro de 2025"></div>
-<div class="eg-wide"><label class="eg-label">Local (opcional)</label><input class="eg-input" id="vd-local" placeholder="Ex: AVA EJUD, Auditório EJUD"></div>
+<div><label class="eg-label">Horário (opcional)</label><input class="eg-input" id="vd-horario" placeholder="Ex: 9h às 12h"></div>
+<div><label class="eg-label">Local (opcional)</label><input class="eg-input" id="vd-local" placeholder="Ex: AVA EJUD"></div>
 </div>
 <div class="eg-sep">
 <div class="eg-sep-head"><span class="eg-sep-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0-8 0Z"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Instrutores(as)</span><button class="eg-add" onclick="egAddInst()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Adicionar</button></div>
@@ -197,7 +202,13 @@ Informações</button>
 <div class="eg-tab-content" id="tab-info">
 <div class="eg-card">
 <div class="eg-card-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg> Construtor de Informações</div>
-<p class="eg-hint" style="margin-bottom:16px">Adicione blocos de título, mensagem e imagem. Arraste ou use as setas para reorganizar a ordem.</p>
+<div class="eg-grid" style="margin-bottom:16px">
+<div><label class="eg-label">Data (opcional)</label><input class="eg-input" id="inf-data" placeholder="Ex: 22 de Setembro de 2025"></div>
+<div><label class="eg-label">Horário (opcional)</label><input class="eg-input" id="inf-horario" placeholder="Ex: 9h às 12h"></div>
+<div><label class="eg-label">Local (opcional)</label><input class="eg-input" id="inf-local" placeholder="Ex: AVA EJUD"></div>
+<div><label class="eg-label">Período (opcional)</label><input class="eg-input" id="inf-periodo" placeholder="Ex: 22/09 — 15/12/2025"></div>
+</div>
+<p class="eg-hint" style="margin-bottom:16px">Adicione blocos de título, mensagem, imagem e vídeo. Arraste ou use as setas para reorganizar.</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
 <button class="eg-add" onclick="egInfoAdd('titulo')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Título</button>
 <button class="eg-add" onclick="egInfoAdd('mensagem')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Mensagem</button>
@@ -448,8 +459,15 @@ function prevBanner(){document.getElementById('prev-banner').innerHTML=genBanner
 function genAviso(forCopy){
   var v=function(id){return document.getElementById(id).value};
   var u=v('av-tipo')==='urgente';var id=forCopy?'ejud-aviso-'+Date.now():'ejud-prev-aviso';
-  var html='<div class="ea-card"><div class="ea-header">'+svg(u?'alert-triangle':'bell',16,u?'#fff':'#12B54A')+' <span>'+(u?'Aviso Urgente':'Aviso')+'</span>'+(v('av-prazo')?'<span class="ea-prazo">Prazo: '+v('av-prazo')+'</span>':'')+'</div><div class="ea-body"><h3>'+v('av-titulo')+'</h3><p>'+v('av-msg')+'</p></div><div class="ea-footer"><span>'+FOOTER+'</span></div></div>';
-  var css='#I .ea-card{max-width:800px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid '+(u?'#FED7D7':'#DDE1E8')+';background:#fff}#I .ea-header{display:flex;align-items:center;gap:12px;padding:18px 32px;background:'+(u?'#C53030':'#0A2E1B')+'}#I .ea-header span{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}#I .ea-prazo{margin-left:auto;font-size:11px;font-weight:600;color:rgba(255,255,255,0.6);letter-spacing:0;text-transform:none}#I .ea-body{padding:24px 28px}#I .ea-body h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:26px;color:#1A2E22;margin:0 0 12px}#I .ea-body p{font-size:14px;line-height:1.8;color:#3A4555;border-left:3px solid '+(u?'#C53030':'#0D8F3E')+';padding-left:20px;margin:0}#I .ea-footer{padding:10px 28px 16px}#I .ea-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}';
+  var html='<div class="ea-card"><div class="ea-header">'+svg(u?'alert-triangle':'bell',16,u?'#fff':'#12B54A')+' <span>'+(u?'Aviso Urgente':'Aviso')+'</span>'+(v('av-prazo')?'<span class="ea-prazo">Prazo: '+v('av-prazo')+'</span>':'')+'</div><div class="ea-body"><h3>'+v('av-titulo')+'</h3><p>'+v('av-msg')+'</p>';
+  var avInfo='';
+  if(v('av-data'))avInfo+='<div class="ea-info">'+svg('calendar',14,'#8E99A8')+' <span>'+v('av-data')+'</span></div>';
+  if(v('av-horario'))avInfo+='<div class="ea-info">'+svg('clock',14,'#8E99A8')+' <span>'+v('av-horario')+'</span></div>';
+  if(v('av-local'))avInfo+='<div class="ea-info">'+svg('map-pin',14,'#8E99A8')+' <span>'+v('av-local')+'</span></div>';
+  if(v('av-periodo'))avInfo+='<div class="ea-info">'+svg('calendar-range',14,'#8E99A8')+' <span>'+v('av-periodo')+'</span></div>';
+  if(avInfo)html+='<div class="ea-infos">'+avInfo+'</div>';
+  html+='</div><div class="ea-footer"><span>'+FOOTER+'</span></div></div>';
+  var css='#I .ea-card{max-width:800px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid '+(u?'#FED7D7':'#DDE1E8')+';background:#fff}#I .ea-header{display:flex;align-items:center;gap:12px;padding:18px 32px;background:'+(u?'#C53030':'#0A2E1B')+'}#I .ea-header span{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}#I .ea-prazo{margin-left:auto;font-size:11px;font-weight:600;color:rgba(255,255,255,0.6);letter-spacing:0;text-transform:none}#I .ea-body{padding:24px 28px}#I .ea-body h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:26px;color:#1A2E22;margin:0 0 12px}#I .ea-body p{font-size:14px;line-height:1.8;color:#3A4555;border-left:3px solid '+(u?'#C53030':'#0D8F3E')+';padding-left:20px;margin:0 0 16px}#I .ea-infos{display:flex;gap:16px;flex-wrap:wrap;padding:16px 0 0;border-top:1px solid #DDE1E8}#I .ea-info{display:flex;align-items:center;gap:6px;font-size:13px;color:#6B7789}#I .ea-footer{padding:10px 28px 16px}#I .ea-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}';
   css=css.replace(/#I /g,'#'+id+' ').replace(/#I{/g,'#'+id+'{');
   return wrap(id,html,css);
 }
@@ -496,6 +514,7 @@ function genVideo(forCopy){
   html+='<div class="ev-body"><h3>'+v('vd-titulo')+'</h3>';
   if(v('vd-desc'))html+='<p class="ev-desc">'+v('vd-desc').replace(/\n/g,'<br>')+'</p>';
   if(v('vd-data'))html+='<div class="ev-date">'+svg('calendar',14,'#8E99A8')+' <span>'+v('vd-data')+'</span></div>';
+  if(v('vd-horario'))html+='<div class="ev-date">'+svg('clock',14,'#8E99A8')+' <span>'+v('vd-horario')+'</span></div>';
   if(v('vd-local'))html+='<div class="ev-date">'+svg('map-pin',14,'#8E99A8')+' <span>'+v('vd-local')+'</span></div>';
   if(instHtml)html+='<div class="ev-insts">'+svg('users',14,'#8E99A8')+' <span class="ev-insts-l">'+(validInst.length===1?'Instrutor(a):':'Instrutores(as):')+'</span> '+instHtml+'</div>';
   if(matsHtml)html+='<div class="ev-mats"><div class="ev-mats-h">'+svg('download',12,'#8E99A8')+' Materiais da Aula</div>'+matsHtml+'</div>';
@@ -632,8 +651,16 @@ window.egDragEnd=function(e){var bl=e.target.closest('.eg-block');if(bl)bl.class
 
 // ===== INFO GEN =====
 function genInfo(forCopy){
+  var v=function(id){return document.getElementById(id)?document.getElementById(id).value:''};
   var id=forCopy?'ejud-info-'+Date.now():'ejud-prev-info';
   var html='<div class="ei-card">';
+  // Optional metadata
+  var meta='';
+  if(v('inf-data'))meta+='<div class="ei-info">'+svg('calendar',14,'#8E99A8')+' <span>'+v('inf-data')+'</span></div>';
+  if(v('inf-horario'))meta+='<div class="ei-info">'+svg('clock',14,'#8E99A8')+' <span>'+v('inf-horario')+'</span></div>';
+  if(v('inf-local'))meta+='<div class="ei-info">'+svg('map-pin',14,'#8E99A8')+' <span>'+v('inf-local')+'</span></div>';
+  if(v('inf-periodo'))meta+='<div class="ei-info">'+svg('calendar-range',14,'#8E99A8')+' <span>'+v('inf-periodo')+'</span></div>';
+  if(meta)html+='<div class="ei-infos">'+meta+'</div>';
   infoBlocks.forEach(function(bl){
     if(bl.type==='titulo'&&bl.value){
       html+='<h2 class="ei-title">'+bl.value+'</h2>';
@@ -658,6 +685,8 @@ function genInfo(forCopy){
   html+='<div class="ei-footer"><span>'+FOOTER+'</span></div>';
   html+='</div>';
   var css='#I .ei-card{max-width:800px;margin:0 auto;border-radius:12px;overflow:hidden;background:#fff;border:1px solid #DDE1E8;padding:32px 28px}';
+  css+='#I .ei-infos{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 20px;padding:0 0 16px;border-bottom:1px solid #DDE1E8}';
+  css+='#I .ei-info{display:flex;align-items:center;gap:6px;font-size:13px;color:#6B7789}';
   css+='#I .ei-title{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:26px;color:#0A2E1B;margin:0 0 16px;line-height:1.3}';
   css+='#I .ei-msg{font-size:15px;line-height:1.8;color:#3A4555;margin:0 0 20px;border-left:3px solid #0D8F3E;padding-left:20px}';
   css+='#I .ei-imgs{display:grid;gap:12px;margin:0 0 20px}';
