@@ -240,6 +240,8 @@ Avaliação</button>
 <div><label class="eg-label">Prazo (opcional)</label><input class="eg-input" id="enc-prazo" placeholder="Ex: 30/09/2025"></div>
 <div class="eg-wide"><label class="eg-label">Título</label><input class="eg-input" id="enc-titulo" value="Preenchimento de Dados Obrigatórios"></div>
 <div class="eg-wide"><label class="eg-label">Mensagem</label><textarea class="eg-textarea" id="enc-msg" style="min-height:96px">Convidamos você a preencher alguns dados obrigatórios, necessários para a emissão do certificado. Essas informações serão utilizadas exclusivamente para a elaboração de relatórios gerenciais e pedagógicos da Escola Judicial, em conformidade com a Lei Geral de Proteção de Dados (LGPD).</textarea></div>
+<div><label class="eg-label">Texto do Botão (opcional)</label><input class="eg-input" id="enc-btn-texto" placeholder="Ex: Preencher Dados"></div>
+<div><label class="eg-label">Link do Botão (opcional)</label><input class="eg-input" id="enc-btn-link" placeholder="https://..."></div>
 </div>
 </div>
 <div class="eg-copy-wrap"><button class="eg-copy" onclick="egCopy('encerramento')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h13v13H9z"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar HTML para Moodle</button></div>
@@ -787,7 +789,9 @@ function genEncerramento(forCopy){
   var html='<div class="do-card"><div class="do-header">'+svg('alert-triangle',18,'#fff')+' <span>'+c.label+'</span>'+prazo+'</div>';
   html+='<div class="do-body"><div class="do-icon">'+svg('file-text',28,'#fff')+'</div>';
   html+='<div class="do-content"><h3>'+v('enc-titulo')+'</h3>';
-  html+='<p>'+v('enc-msg').replace(/\n/g,'<br>')+'</p></div></div>';
+  html+='<p>'+v('enc-msg').replace(/\n/g,'<br>')+'</p>';
+  if(v('enc-btn-texto')&&v('enc-btn-link'))html+='<div style="margin-top:18px"><a href="'+v('enc-btn-link')+'" target="_blank" rel="noopener noreferrer" class="do-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg> '+v('enc-btn-texto')+'</a></div>';
+  html+='</div></div>';
   html+='<div class="do-footer"><span>'+FOOTER+'</span></div></div>';
   var css='#I .do-card{max-width:800px;margin:0 auto;border-radius:12px;overflow:hidden;background:#fff;border:1px solid '+c.border+'}';
   css+='#I .do-header{display:flex;align-items:center;gap:12px;padding:18px 32px;background:'+c.bg+'}';
@@ -798,6 +802,7 @@ function genEncerramento(forCopy){
   css+='#I .do-content{flex:1}';
   css+='#I .do-content h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:22px;color:'+c.icon+';margin:0 0 10px;line-height:1.3}';
   css+='#I .do-content p{font-size:14px;line-height:1.8;color:#3A4555;margin:0;border-left:3px solid '+c.bg+';padding-left:18px}';
+  css+='#I .do-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:'+c.bg+';color:#fff;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,0.15)}';
   css+='#I .do-footer{padding:10px 28px 16px;border-top:1px solid '+c.border+'}';
   css+='#I .do-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}';
   css+='@media(max-width:600px){#I .do-body{flex-direction:column;gap:16px}}';
