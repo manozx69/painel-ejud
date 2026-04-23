@@ -91,6 +91,15 @@ Vídeo / Aula</button>
 <button class="eg-tab" data-tab="info" onclick="egTab('info')">
 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
 Informações</button>
+<button class="eg-tab" data-tab="encerramento" onclick="egTab('encerramento')">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+Dados Obrigatórios</button>
+<button class="eg-tab" data-tab="certificado" onclick="egTab('certificado')">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0Z"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+Certificado</button>
+<button class="eg-tab" data-tab="avaliacao" onclick="egTab('avaliacao')">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+Avaliação</button>
 </div>
 
 <!-- ====== BANNER TAB ====== -->
@@ -222,6 +231,62 @@ Informações</button>
 <div class="eg-prev" id="prev-info"></div>
 </div>
 
+<!-- ====== DADOS OBRIGATÓRIOS TAB ====== -->
+<div class="eg-tab-content" id="tab-encerramento">
+<div class="eg-card">
+<div class="eg-card-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Dados Obrigatórios</div>
+<div class="eg-grid">
+<div><label class="eg-label">Tipo</label><select class="eg-select" id="enc-tipo"><option value="urgente">Urgente (vermelho)</option><option value="atencao">Atenção (amarelo)</option><option value="normal">Normal (verde)</option></select></div>
+<div><label class="eg-label">Prazo (opcional)</label><input class="eg-input" id="enc-prazo" placeholder="Ex: 30/09/2025"></div>
+<div class="eg-wide"><label class="eg-label">Título</label><input class="eg-input" id="enc-titulo" value="Preenchimento de Dados Obrigatórios"></div>
+<div class="eg-wide"><label class="eg-label">Mensagem</label><textarea class="eg-textarea" id="enc-msg" style="min-height:96px">Convidamos você a preencher alguns dados obrigatórios, necessários para a emissão do certificado. Essas informações serão utilizadas exclusivamente para a elaboração de relatórios gerenciais e pedagógicos da Escola Judicial, em conformidade com a Lei Geral de Proteção de Dados (LGPD).</textarea></div>
+</div>
+</div>
+<div class="eg-copy-wrap"><button class="eg-copy" onclick="egCopy('encerramento')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h13v13H9z"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar HTML para Moodle</button></div>
+<div class="eg-preview-tag">PREVIEW</div>
+<div class="eg-prev" id="prev-encerramento"></div>
+</div>
+
+<!-- ====== CERTIFICADO TAB ====== -->
+<div class="eg-tab-content" id="tab-certificado">
+<div class="eg-card">
+<div class="eg-card-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0Z"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> Certificado de Conclusão</div>
+<div class="eg-grid">
+<div class="eg-wide"><label class="eg-label">Descrição Introdutória</label><textarea class="eg-textarea" id="cert-intro" style="min-height:72px">A plataforma Moodle permite que o próprio cursista emita o certificado de conclusão, com informações de frente e verso, incluindo ementa e carga horária.</textarea></div>
+<div class="eg-wide"><label class="eg-label">Passo 1</label><textarea class="eg-textarea" id="cert-passo1">Acesse o seu Perfil, clicando no seu nome na parte superior direita da página. Caso identifique alguma inconsistência, especialmente nos campos Nome Completo (para o Certificado) e CPF, clique em "Modificar perfil" e realize as devidas correções.</textarea></div>
+<div class="eg-wide"><label class="eg-label">Passo 2</label><textarea class="eg-textarea" id="cert-passo2">Localize a seção "CERTIFICADO ONLINE", clique em "Obter Certificado" e salve o arquivo PDF no seu computador ou dispositivo móvel.</textarea></div>
+<div class="eg-wide"><label class="eg-label">E-mail de Contato</label><input class="eg-input" id="cert-email" value="ejud@tjam.jus.br"></div>
+</div>
+<div class="eg-sep">
+<div class="eg-sep-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg> Critério e Verificação</div>
+<div class="eg-grid" style="margin-top:12px">
+<div class="eg-wide"><label class="eg-label">Critério de Aprovação (opcional)</label><input class="eg-input" id="cert-criterio" value="75% de aproveitamento" placeholder="Ex: 75% de aproveitamento"></div>
+<div class="eg-wide"><label class="eg-label">Link para Verificar Perfil (opcional)</label><input class="eg-input" id="cert-perfil-link" value="https://ejud2.tjam.jus.br/user/profile.php" placeholder="https://..."></div>
+</div>
+</div>
+</div>
+<div class="eg-copy-wrap"><button class="eg-copy" onclick="egCopy('certificado')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h13v13H9z"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar HTML para Moodle</button></div>
+<div class="eg-preview-tag">PREVIEW</div>
+<div class="eg-prev" id="prev-certificado"></div>
+</div>
+
+<!-- ====== AVALIAÇÃO TAB ====== -->
+<div class="eg-tab-content" id="tab-avaliacao">
+<div class="eg-card">
+<div class="eg-card-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Avaliação de Reação</div>
+<div class="eg-grid">
+<div class="eg-wide"><label class="eg-label">Título</label><input class="eg-input" id="aval-titulo" value="O que achou do curso?"></div>
+<div class="eg-wide"><label class="eg-label">Mensagem</label><textarea class="eg-textarea" id="aval-msg" style="min-height:96px">Esta é uma avaliação de reação, uma oportunidade de você, estudante, avaliar este curso construído pela EJUD. É o seu feedback para o nosso serviço. Portanto, te convidamos para, antes de emitir o seu certificado, responder este questionário.</textarea></div>
+<div><label class="eg-label">Tempo Estimado</label><input class="eg-input" id="aval-tempo" value="3 a 5 minutos"></div>
+<div><label class="eg-label">Link da Avaliação (opcional)</label><input class="eg-input" id="aval-link" placeholder="https://ejud2.tjam.jus.br/mod/feedback/view.php?id=..."></div>
+<div class="eg-wide"><label class="eg-label">Texto do Botão</label><input class="eg-input" id="aval-btn-texto" value="Responder Avaliação"></div>
+</div>
+</div>
+<div class="eg-copy-wrap"><button class="eg-copy" onclick="egCopy('avaliacao')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h13v13H9z"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar HTML para Moodle</button></div>
+<div class="eg-preview-tag">PREVIEW</div>
+<div class="eg-prev" id="prev-avaliacao"></div>
+</div>
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Archivo:wght@300;400;500;600;700&display=swap">
 <script>
 (function(){
@@ -284,7 +349,8 @@ search:'M3 11a8 8 0 1 0 16 0a8 8 0 1 0-16 0Z|M21 21l-4.35-4.35',
 grip:'M9 4h.01|M9 8h.01|M9 12h.01|M9 16h.01|M9 20h.01|M15 4h.01|M15 8h.01|M15 12h.01|M15 16h.01|M15 20h.01',
 copy:'M9 9h13v13H9z|M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1',
 check:'M20 6L9 17l-5-5',
-trash:'M3 6h18|M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6|M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'
+trash:'M3 6h18|M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6|M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2',
+mail:'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z|M22 6l-10 7L2 6'
 };
 var CURATED=[
 ['scale','Balança'],['shield','Segurança'],['brain','IA'],['book','Educação'],['lock','LGPD'],
@@ -415,6 +481,9 @@ function egUpdatePreview(tab){
   else if(tab==='meet')prevMeet();
   else if(tab==='video')prevVideo();
   else if(tab==='info')prevInfo();
+  else if(tab==='encerramento')prevEncerramento();
+  else if(tab==='certificado')prevCertificado();
+  else if(tab==='avaliacao')prevAvaliacao();
 }
 
 // Auto-update previews on input
@@ -707,6 +776,124 @@ function genInfo(forCopy){
 }
 function prevInfo(){document.getElementById('prev-info').innerHTML=genInfo(false)}
 
+// ===== DADOS OBRIGATÓRIOS GEN =====
+function genEncerramento(forCopy){
+  var v=function(id){return document.getElementById(id)?document.getElementById(id).value:''};
+  var id=forCopy?'ejud-dados-'+Date.now():'ejud-prev-enc';
+  var tipo=v('enc-tipo');
+  var colors={urgente:{bg:'#C53030',border:'#FED7D7',icon:'#9B2C2C',grad1:'#C53030',grad2:'#9B2C2C',label:'Atenção'},atencao:{bg:'#B7791F',border:'#FEFCBF',icon:'#975A16',grad1:'#D69E2E',grad2:'#B7791F',label:'Atenção'},normal:{bg:'#0A2E1B',border:'#DDE1E8',icon:'#0D8F3E',grad1:'#0D8F3E',grad2:'#0a7a35',label:'Informação'}};
+  var c=colors[tipo]||colors.urgente;
+  var prazo=v('enc-prazo')?'<span class="do-prazo">Prazo: '+v('enc-prazo')+'</span>':'';
+  var html='<div class="do-card"><div class="do-header">'+svg('alert-triangle',18,'#fff')+' <span>'+c.label+'</span>'+prazo+'</div>';
+  html+='<div class="do-body"><div class="do-icon">'+svg('file-text',28,'#fff')+'</div>';
+  html+='<div class="do-content"><h3>'+v('enc-titulo')+'</h3>';
+  html+='<p>'+v('enc-msg').replace(/\n/g,'<br>')+'</p></div></div>';
+  html+='<div class="do-footer"><span>'+FOOTER+'</span></div></div>';
+  var css='#I .do-card{max-width:800px;margin:0 auto;border-radius:12px;overflow:hidden;background:#fff;border:1px solid '+c.border+'}';
+  css+='#I .do-header{display:flex;align-items:center;gap:12px;padding:18px 32px;background:'+c.bg+'}';
+  css+='#I .do-header span{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}';
+  css+='#I .do-prazo{margin-left:auto;font-size:11px;font-weight:600;color:rgba(255,255,255,0.6);letter-spacing:0;text-transform:none}';
+  css+='#I .do-body{display:flex;align-items:flex-start;gap:24px;padding:24px 28px}';
+  css+='#I .do-icon{flex-shrink:0;width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,'+c.grad1+','+c.grad2+');display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.15)}';
+  css+='#I .do-content{flex:1}';
+  css+='#I .do-content h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:22px;color:'+c.icon+';margin:0 0 10px;line-height:1.3}';
+  css+='#I .do-content p{font-size:14px;line-height:1.8;color:#3A4555;margin:0;border-left:3px solid '+c.bg+';padding-left:18px}';
+  css+='#I .do-footer{padding:10px 28px 16px;border-top:1px solid '+c.border+'}';
+  css+='#I .do-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}';
+  css+='@media(max-width:600px){#I .do-body{flex-direction:column;gap:16px}}';
+  css=css.replace(/#I /g,'#'+id+' ').replace(/#I\./g,'#'+id+' .').replace(/#I{/g,'#'+id+'{');
+  return wrap(id,html,css);
+}
+function prevEncerramento(){document.getElementById('prev-encerramento').innerHTML=genEncerramento(false)}
+
+// ===== CERTIFICADO GEN =====
+function genCertificado(forCopy){
+  var v=function(id){return document.getElementById(id)?document.getElementById(id).value:''};
+  var id=forCopy?'ejud-cert-'+Date.now():'ejud-prev-cert';
+  var html='<div class="ct-card"><div class="ct-header">'+svg('award',18,'#12B54A')+' <span>Certificado de Conclusão</span></div>';
+  html+='<div class="ct-body"><div class="ct-intro"><div class="ct-icon">'+svg('award',32,'#fff')+'</div>';
+  html+='<div class="ct-intro-text"><h3>Como emitir seu Certificado</h3>';
+  html+='<p>'+v('cert-intro')+'</p></div></div>';
+  html+='<div class="ct-steps">';
+  if(v('cert-passo1'))html+='<div class="ct-step"><div class="ct-step-num">1</div><div class="ct-step-text">'+v('cert-passo1')+'</div></div>';
+  if(v('cert-passo2'))html+='<div class="ct-step"><div class="ct-step-num">2</div><div class="ct-step-text">'+v('cert-passo2')+'</div></div>';
+  html+='</div>';
+  if(v('cert-email'))html+='<div class="ct-contact">'+svg('mail',16,'#0D8F3E')+' Para mais informações ou em caso de dúvidas: <a href="mailto:'+v('cert-email')+'">'+v('cert-email')+'</a></div>';
+  html+='</div><div class="ct-footer"><span>'+FOOTER+'</span></div></div>';
+  // Critério card
+  if(v('cert-criterio')){
+    html+='<div class="vr-card"><div class="vr-accent"></div><div class="vr-icon">'+svg('check',24,'#0D8F3E')+'</div>';
+    html+='<div class="vr-content"><h3>Critério de Aprovação</h3>';
+    html+='<p>Você será considerado aprovado se obtiver <strong>'+v('cert-criterio')+'</strong> no curso, considerando o somatório das notas dos questionários avaliativos.</p></div></div>';
+  }
+  // Perfil card
+  if(v('cert-perfil-link')){
+    html+='<div class="vr-card"><div class="vr-accent"></div><div class="vr-icon">'+svg('users',24,'#0D8F3E')+'</div>';
+    html+='<div class="vr-content"><h3>Verifique seu Perfil</h3>';
+    html+='<p>Antes de emitir seu certificado, certifique-se de que seu <strong>Nome Completo (para o Certificado)</strong> e o <strong>CPF</strong> estão corretamente preenchidos em seu perfil.</p>';
+    html+='<a href="'+v('cert-perfil-link')+'" target="_blank" rel="noopener noreferrer" class="vr-btn">'+svg('external-link',14,'#fff')+' Verificar e Modificar Perfil</a></div></div>';
+  }
+  var css='#I .ct-card{max-width:800px;margin:0 auto;border-radius:12px;overflow:hidden;background:#fff;border:1px solid #DDE1E8}';
+  css+='#I .ct-header{display:flex;align-items:center;gap:12px;padding:18px 32px;background:#0A2E1B}';
+  css+='#I .ct-header span{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}';
+  css+='#I .ct-body{padding:28px 28px 20px}';
+  css+='#I .ct-intro{display:flex;align-items:center;gap:24px;margin-bottom:24px}';
+  css+='#I .ct-icon{flex-shrink:0;width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,#0D8F3E,#0a7a35);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(13,143,62,0.2)}';
+  css+='#I .ct-intro-text h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:24px;color:#0A2E1B;margin:0 0 6px;line-height:1.3}';
+  css+='#I .ct-intro-text p{font-size:13px;color:#6B7789;margin:0}';
+  css+='#I .ct-steps{margin:0}';
+  css+='#I .ct-step{display:flex;align-items:flex-start;gap:16px;padding:18px 0;border-top:1px solid #DDE1E8}';
+  css+='#I .ct-step-num{flex-shrink:0;width:32px;height:32px;border-radius:8px;background:rgba(13,143,62,0.1);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#0D8F3E}';
+  css+='#I .ct-step-text{flex:1;font-size:14px;line-height:1.7;color:#3A4555}';
+  css+='#I .ct-contact{margin-top:16px;padding:16px 20px;background:#F7F8FA;border-radius:8px;border:1px solid #DDE1E8;font-size:13px;color:#3A4555;display:flex;align-items:center;gap:12px}';
+  css+='#I .ct-contact a{color:#0D8F3E;font-weight:700;text-decoration:none}';
+  css+='#I .ct-footer{padding:10px 28px 16px;border-top:1px solid #DDE1E8}';
+  css+='#I .ct-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}';
+  css+='@media(max-width:600px){#I .ct-intro{flex-direction:column;text-align:center}#I .ct-step{flex-direction:column;gap:10px}#I .vr-card{flex-direction:column}#I .vr-accent{width:100%;height:4px}#I .vr-icon{margin:16px 24px 0}}';
+  css+='#I .vr-card{border-radius:12px;overflow:hidden;background:#fff;border:1px solid #DDE1E8;display:flex;align-items:flex-start;margin-top:14px}';
+  css+='#I .vr-accent{flex-shrink:0;width:4px;background:#0D8F3E;align-self:stretch}';
+  css+='#I .vr-icon{flex-shrink:0;width:56px;height:56px;border-radius:14px;background:rgba(13,143,62,0.08);border:1px solid rgba(13,143,62,0.15);display:flex;align-items:center;justify-content:center;margin:20px 0 20px 24px}';
+  css+='#I .vr-content{flex:1;padding:20px 24px}';
+  css+='#I .vr-content h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:20px;color:#0A2E1B;margin:0 0 8px;line-height:1.3}';
+  css+='#I .vr-content p{font-size:14px;line-height:1.7;color:#3A4555;margin:0}';
+  css+='#I .vr-content strong{color:#0A2E1B}';
+  css+='#I .vr-btn{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:10px 22px;background:#0D8F3E;color:#fff;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(13,143,62,0.2)}';
+  css=css.replace(/#I /g,'#'+id+' ').replace(/#I\./g,'#'+id+' .').replace(/#I{/g,'#'+id+'{');
+  return wrap(id,html,css);
+}
+function prevCertificado(){document.getElementById('prev-certificado').innerHTML=genCertificado(false)}
+
+// ===== AVALIAÇÃO GEN =====
+function genAvaliacao(forCopy){
+  var v=function(id){return document.getElementById(id)?document.getElementById(id).value:''};
+  var id=forCopy?'ejud-aval-'+Date.now():'ejud-prev-aval';
+  var html='<div class="ar-card"><div class="ar-header">'+svg('target',18,'#12B54A')+' <span>Avaliação de Reação</span></div>';
+  html+='<div class="ar-body"><div class="ar-icon">'+svg('message-circle',36,'#fff')+'</div>';
+  html+='<div class="ar-content"><h3>'+v('aval-titulo')+'</h3>';
+  html+='<p>'+v('aval-msg').replace(/\n/g,'<br>')+'</p>';
+  if(v('aval-tempo'))html+='<div class="ar-badge">'+svg('clock',12,'#0D8F3E')+' '+v('aval-tempo')+'</div>';
+  if(v('aval-link')&&v('aval-btn-texto'))html+='<div class="ar-btn-wrap"><a href="'+v('aval-link')+'" target="_blank" rel="noopener noreferrer" class="ar-btn">'+svg('check',16,'#fff')+' '+v('aval-btn-texto')+'</a></div>';
+  html+='</div></div>';
+  html+='<div class="ar-footer"><span>'+FOOTER+'</span></div></div>';
+  var css='#I .ar-card{max-width:800px;margin:0 auto;border-radius:12px;overflow:hidden;background:#fff;border:1px solid #DDE1E8}';
+  css+='#I .ar-header{display:flex;align-items:center;gap:12px;padding:18px 32px;background:#0A2E1B}';
+  css+='#I .ar-header span{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}';
+  css+='#I .ar-body{display:flex;align-items:flex-start;gap:24px;padding:28px}';
+  css+='#I .ar-icon{flex-shrink:0;width:80px;height:80px;border-radius:16px;background:linear-gradient(135deg,#0D8F3E,#0a7a35);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(13,143,62,0.2)}';
+  css+='#I .ar-content{flex:1}';
+  css+='#I .ar-content h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:22px;color:#0A2E1B;margin:0 0 10px;line-height:1.3}';
+  css+='#I .ar-content p{font-size:14px;line-height:1.8;color:#3A4555;margin:0;border-left:3px solid #0D8F3E;padding-left:18px}';
+  css+='#I .ar-badge{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:6px 14px;background:rgba(13,143,62,0.08);border:1px solid rgba(13,143,62,0.15);border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#0D8F3E}';
+  css+='#I .ar-btn-wrap{margin-top:18px}';
+  css+='#I .ar-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#0D8F3E;color:#fff;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(13,143,62,0.3)}';
+  css+='#I .ar-footer{padding:10px 28px 16px;border-top:1px solid #DDE1E8}';
+  css+='#I .ar-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}';
+  css+='@media(max-width:600px){#I .ar-body{flex-direction:column;text-align:center;gap:20px}#I .ar-content p{border-left:none;padding-left:0;border-top:3px solid #0D8F3E;padding-top:14px}}';
+  css=css.replace(/#I /g,'#'+id+' ').replace(/#I\./g,'#'+id+' .').replace(/#I{/g,'#'+id+'{');
+  return wrap(id,html,css);
+}
+function prevAvaliacao(){document.getElementById('prev-avaliacao').innerHTML=genAvaliacao(false)}
+
 // ===== COPY =====
 window.egCopy=function(type){
   var html;
@@ -715,6 +902,9 @@ window.egCopy=function(type){
   else if(type==='meet')html=genMeet(true);
   else if(type==='video')html=genVideo(true);
   else if(type==='info')html=genInfo(true);
+  else if(type==='encerramento')html=genEncerramento(true);
+  else if(type==='certificado')html=genCertificado(true);
+  else if(type==='avaliacao')html=genAvaliacao(true);
   navigator.clipboard.writeText(html).then(function(){
     var btn=document.querySelector('#tab-'+type+' .eg-copy');
     btn.classList.add('ok');btn.innerHTML=svg('check',14,'#fff')+' Copiado!';
@@ -725,6 +915,7 @@ window.egCopy=function(type){
 // ===== INIT =====
 renderIconSelector();renderBtns();renderInst();renderMat();
 prevBanner();prevAviso();prevMeet();prevVideo();prevInfo();
+prevEncerramento();prevCertificado();prevAvaliacao();
 })();
 </script>
 </div>
