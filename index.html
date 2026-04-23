@@ -957,8 +957,14 @@ window.egCopy=function(type){
 
 // ===== INIT =====
 renderIconSelector();renderBtns();renderInst();renderMat();
-prevBanner();prevAviso();prevMeet();prevVideo();prevInfo();
-prevEncerramento();prevCertificado();prevAvaliacao();
+try{prevBanner()}catch(e){console.error('Banner:',e)}
+try{prevAviso()}catch(e){console.error('Aviso:',e)}
+try{prevMeet()}catch(e){console.error('Meet:',e)}
+try{prevVideo()}catch(e){console.error('Video:',e)}
+try{prevInfo()}catch(e){console.error('Info:',e)}
+try{prevEncerramento()}catch(e){console.error('Enc:',e)}
+try{prevCertificado()}catch(e){console.error('Cert:',e)}
+try{prevAvaliacao()}catch(e){console.error('Aval:',e)}
 })();
 </script>
 </div>
