@@ -997,27 +997,43 @@ function genRestrito(forCopy){
   var corpoFinal=corpoRaw.replace(/\{CURSO\}/g,nomeCurso);
   var corpo=encodeURIComponent(corpoFinal);
   var mailtoLink='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(emailsClean)+'&su='+assunto+'&body='+corpo;
-  var html='<div class="rs-card"><div class="rs-header"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span>Acesso Restrito</span></div>';
-  html+='<div class="rs-body"><div class="rs-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>';
+  var html='<div class="rs-card"><div class="rs-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span>Acesso Restrito</span></div>';
+  html+='<div class="rs-body"><div class="rs-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>';
   html+='<div class="rs-content"><h3>'+v('rst-titulo')+'</h3>';
   html+='<p>'+v('rst-desc').replace(/\n/g,'<br>')+'</p>';
-  html+='<a href="'+mailtoLink+'" target="_blank" rel="noopener noreferrer" class="rs-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> '+v('rst-btn-texto')+'</a>';
+  html+='<a href="'+mailtoLink+'" target="_blank" rel="noopener noreferrer" class="rs-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> '+v('rst-btn-texto')+'</a>';
   html+='</div></div>';
   html+='<div class="rs-footer"><span>'+FOOTER+'</span></div></div>';
-  var css='#I .rs-card{max-width:960px;margin:0 auto;border-radius:12px;overflow:hidden;background:#fff;border:1px solid '+c.border+'}';
-  css+='#I .rs-header{display:flex;align-items:center;gap:12px;padding:18px 32px;background:'+c.hdr+'}';
-  css+='#I .rs-header span{font-size:14px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}';
-  css+='#I .rs-body{display:flex;align-items:flex-start;gap:24px;padding:28px}';
-  css+='#I .rs-icon{flex-shrink:0;width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,'+c.bg+','+c.hdr+');display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,0.15)}';
+  var css='#I{font-family:\'Archivo\',Helvetica,Arial,sans-serif;color:#3A4555;line-height:1.5;max-width:960px;margin:32px auto 0;box-sizing:border-box}';
+  css+='#I div,#I p,#I h3,#I a,#I span{box-sizing:border-box}';
+  css+='#I .rs-card{border-radius:12px;overflow:hidden;background:#fff;border:1px solid '+c.border+'}';
+  css+='#I .rs-header{display:flex;align-items:center;gap:10px;padding:14px 28px;background:'+c.hdr+'}';
+  css+='#I .rs-header span{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}';
+  css+='#I .rs-body{display:flex;align-items:flex-start;gap:20px;padding:24px 28px}';
+  css+='#I .rs-icon{flex-shrink:0;width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,'+c.bg+','+c.hdr+');display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.12)}';
   css+='#I .rs-content{flex:1}';
-  css+='#I .rs-content h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:28px;color:'+c.hdr+';margin:0 0 12px;line-height:1.3}';
-  css+='#I .rs-content p{font-size:16px;line-height:1.8;color:#3A4555;margin:0 0 20px;border-left:3px solid '+c.bg+';padding-left:18px}';
-  css+='#I .rs-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:'+c.bg+';color:#fff;border-radius:10px;font-size:16px;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,0.15)}';
-  css+='#I .rs-footer{padding:10px 28px 16px;border-top:1px solid '+c.border+'}';
+  css+='#I .rs-content h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:24px;color:'+c.hdr+';margin:0 0 10px;line-height:1.3}';
+  css+='#I .rs-content p{font-size:14px;line-height:1.7;color:#3A4555;margin:0 0 18px;border-left:3px solid '+c.bg+';padding-left:16px}';
+  css+='#I .rs-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:'+c.bg+';color:#fff;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12)}';
+  css+='#I .rs-footer{padding:8px 28px 14px;border-top:1px solid '+c.border+'}';
   css+='#I .rs-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}';
-  css+='@media(max-width:600px){#I .rs-body{flex-direction:column;text-align:center;gap:20px}#I .rs-content p{border-left:none;padding-left:0;border-top:3px solid '+c.bg+';padding-top:14px}#I .rs-content h3{font-size:24px}}';
+  css+='@media(max-width:600px){#I .rs-body{flex-direction:column;gap:16px}#I .rs-content h3{font-size:20px}#I .rs-content p{border-left:none;padding-left:0;border-top:3px solid '+c.bg+';padding-top:12px}}';
   css=css.replace(/#I /g,'#'+id+' ').replace(/#I\./g,'#'+id+' .').replace(/#I{/g,'#'+id+'{');
-  return wrap(id,html,css);
+  if(forCopy){
+    var out='<div id="'+id+'" style="display:none">\n<style>\n'+css+'\n</style>\n'+html+'\n';
+    out+='<script>\nsetTimeout(function(){\n';
+    out+='var bloco=document.getElementById("'+id+'");\n';
+    out+='if(!bloco)return;\n';
+    out+='var url=window.location.href;\n';
+    out+='var isPaginaCurso=url.indexOf("/course/view.php")!==-1||url.indexOf("/enrol/index.php")!==-1;\n';
+    out+='if(!isPaginaCurso){bloco.style.display="none";return;}\n';
+    out+='bloco.style.display="block";\n';
+    out+="if(document.querySelector(\"input[value*='nscreva']\"))"+'{bloco.style.display="none";}\n';
+    out+='},500);\n<\/script>\n</div>';
+    return out;
+  } else {
+    return '<div id="'+id+'">\n<style>\n'+css+'\n</style>\n'+html+'\n</div>';
+  }
 }
 function prevRestrito(){document.getElementById('prev-restrito').innerHTML=genRestrito(false)}
 
