@@ -100,6 +100,9 @@ Certificado</button>
 <button class="eg-tab" data-tab="avaliacao" onclick="egTab('avaliacao')">
 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
 Avaliação</button>
+<button class="eg-tab" data-tab="restrito" onclick="egTab('restrito')">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+Curso Restrito</button>
 </div>
 
 <!-- ====== BANNER TAB ====== -->
@@ -306,6 +309,44 @@ Equipe de Suporte da Escola Judicial (EJUD).</textarea></div>
 <div class="eg-prev" id="prev-avaliacao"></div>
 </div>
 
+<!-- ====== CURSO RESTRITO TAB ====== -->
+<div class="eg-tab-content" id="tab-restrito">
+<div class="eg-card">
+<div class="eg-card-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Curso Restrito</div>
+<p class="eg-hint" style="margin-bottom:14px">Gera um bloco de solicitação de inscrição por e-mail para cursos com acesso restrito.</p>
+<div class="eg-grid">
+<div class="eg-wide"><label class="eg-label">Título do Aviso</label><input class="eg-input" id="rst-titulo" value="Curso restrito a servidores autorizados"></div>
+<div class="eg-wide"><label class="eg-label">Descrição</label><textarea class="eg-textarea" id="rst-desc" style="min-height:80px">Este curso é destinado aos servidores previamente autorizados pela Direção. Se você já foi liberado, solicite sua inscrição:</textarea></div>
+<div><label class="eg-label">Texto do Botão</label><input class="eg-input" id="rst-btn-texto" value="Solicitar inscrição por e-mail"></div>
+<div><label class="eg-label">Tipo</label><select class="eg-select" id="rst-tipo"><option value="restrito">Restrito (cinza escuro)</option><option value="atencao">Atenção (amarelo)</option><option value="urgente">Urgente (vermelho)</option></select></div>
+</div>
+</div>
+<div class="eg-card" style="margin-top:12px">
+<div class="eg-card-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> Configuração do E-mail</div>
+<div class="eg-grid">
+<div class="eg-wide"><label class="eg-label">E-mails de Destino <small style="color:#8E99A8;font-weight:400">(separe com vírgula)</small></label><input class="eg-input" id="rst-email" value="ejud@tjam.jus.br" placeholder="email1@tjam.jus.br, email2@tjam.jus.br"></div>
+<div><label class="eg-label">Nome do Curso</label><input class="eg-input" id="rst-curso" placeholder="Ex: Curso de Gestão Judicial"></div>
+<div class="eg-wide"><label class="eg-label">Assunto <small style="color:#8E99A8;font-weight:400">({CURSO} = nome do curso)</small></label><input class="eg-input" id="rst-assunto" value="Solicitação de inscrição - {CURSO}"></div>
+<div class="eg-wide"><label class="eg-label">Corpo do E-mail <small style="color:#8E99A8;font-weight:400">({CURSO} = nome do curso)</small></label><textarea class="eg-textarea" id="rst-corpo" style="min-height:200px;font-family:monospace;font-size:13px;line-height:1.6">Olá, equipe da EJUD,
+
+Solicito minha inscrição no curso "{CURSO}".
+
+Meus dados para verificação:
+- Nome completo: [PREENCHA SEU NOME]
+- CPF: [PREENCHA SEU CPF]
+- Lotação/Setor: [PREENCHA SUA LOTAÇÃO]
+- E-mail cadastrado no AVA: [PREENCHA SEU E-MAIL]
+
+Aguardo a liberação.
+
+Atenciosamente.</textarea></div>
+</div>
+</div>
+<div class="eg-copy-wrap"><button class="eg-copy" onclick="egCopy('restrito')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h13v13H9z"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar HTML para Moodle</button></div>
+<div class="eg-preview-tag">PREVIEW</div>
+<div class="eg-prev" id="prev-restrito"></div>
+</div>
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Archivo:wght@300;400;500;600;700&display=swap">
 <script>
 (function(){
@@ -503,6 +544,7 @@ function egUpdatePreview(tab){
   else if(tab==='encerramento')prevEncerramento();
   else if(tab==='certificado')prevCertificado();
   else if(tab==='avaliacao')prevAvaliacao();
+  else if(tab==='restrito')prevRestrito();
 }
 
 // Auto-update previews on input
@@ -939,6 +981,46 @@ function genAvaliacao(forCopy){
 }
 function prevAvaliacao(){document.getElementById('prev-avaliacao').innerHTML=genAvaliacao(false)}
 
+// ===== CURSO RESTRITO GEN =====
+function genRestrito(forCopy){
+  var v=function(id){return document.getElementById(id)?document.getElementById(id).value:''};
+  var id=forCopy?'ejud-restrito-'+Date.now():'ejud-prev-restrito';
+  var tipo=v('rst-tipo');
+  var colors={restrito:{bg:'#2D3748',border:'#4A5568',hdr:'#1A202C',accent:'#A0AEC0'},atencao:{bg:'#B7791F',border:'#F6E05E',hdr:'#975A16',accent:'#F6E05E'},urgente:{bg:'#C53030',border:'#FED7D7',hdr:'#9B2C2C',accent:'#FC8181'}};
+  var c=colors[tipo]||colors.restrito;
+  var nomeCurso=v('rst-curso')||'este curso';
+  var emailDest=v('rst-email')||'ejud@tjam.jus.br';
+  var emailsClean=emailDest.split(',').map(function(e){return e.trim()}).join(',');
+  var assuntoRaw=v('rst-assunto')||'Solicitação de inscrição - {CURSO}';
+  var assunto=encodeURIComponent(assuntoRaw.replace(/\{CURSO\}/g,nomeCurso));
+  var corpoRaw=v('rst-corpo')||'';
+  var corpoFinal=corpoRaw.replace(/\{CURSO\}/g,nomeCurso);
+  var corpo=encodeURIComponent(corpoFinal);
+  var mailtoLink='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(emailsClean)+'&su='+assunto+'&body='+corpo;
+  var html='<div class="rs-card"><div class="rs-header"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span>Acesso Restrito</span></div>';
+  html+='<div class="rs-body"><div class="rs-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>';
+  html+='<div class="rs-content"><h3>'+v('rst-titulo')+'</h3>';
+  html+='<p>'+v('rst-desc').replace(/\n/g,'<br>')+'</p>';
+  html+='<a href="'+mailtoLink+'" target="_blank" rel="noopener noreferrer" class="rs-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> '+v('rst-btn-texto')+'</a>';
+  html+='</div></div>';
+  html+='<div class="rs-footer"><span>'+FOOTER+'</span></div></div>';
+  var css='#I .rs-card{max-width:960px;margin:0 auto;border-radius:12px;overflow:hidden;background:#fff;border:1px solid '+c.border+'}';
+  css+='#I .rs-header{display:flex;align-items:center;gap:12px;padding:18px 32px;background:'+c.hdr+'}';
+  css+='#I .rs-header span{font-size:14px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}';
+  css+='#I .rs-body{display:flex;align-items:flex-start;gap:24px;padding:28px}';
+  css+='#I .rs-icon{flex-shrink:0;width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,'+c.bg+','+c.hdr+');display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,0.15)}';
+  css+='#I .rs-content{flex:1}';
+  css+='#I .rs-content h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:28px;color:'+c.hdr+';margin:0 0 12px;line-height:1.3}';
+  css+='#I .rs-content p{font-size:16px;line-height:1.8;color:#3A4555;margin:0 0 20px;border-left:3px solid '+c.bg+';padding-left:18px}';
+  css+='#I .rs-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:'+c.bg+';color:#fff;border-radius:10px;font-size:16px;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,0.15)}';
+  css+='#I .rs-footer{padding:10px 28px 16px;border-top:1px solid '+c.border+'}';
+  css+='#I .rs-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}';
+  css+='@media(max-width:600px){#I .rs-body{flex-direction:column;text-align:center;gap:20px}#I .rs-content p{border-left:none;padding-left:0;border-top:3px solid '+c.bg+';padding-top:14px}#I .rs-content h3{font-size:24px}}';
+  css=css.replace(/#I /g,'#'+id+' ').replace(/#I\./g,'#'+id+' .').replace(/#I{/g,'#'+id+'{');
+  return wrap(id,html,css);
+}
+function prevRestrito(){document.getElementById('prev-restrito').innerHTML=genRestrito(false)}
+
 // ===== COPY =====
 window.egCopy=function(type){
   var html;
@@ -950,6 +1032,7 @@ window.egCopy=function(type){
   else if(type==='encerramento')html=genEncerramento(true);
   else if(type==='certificado')html=genCertificado(true);
   else if(type==='avaliacao')html=genAvaliacao(true);
+  else if(type==='restrito')html=genRestrito(true);
   navigator.clipboard.writeText(html).then(function(){
     var btn=document.querySelector('#tab-'+type+' .eg-copy');
     btn.classList.add('ok');btn.innerHTML=svg('check',14,'#fff')+' Copiado!';
@@ -967,6 +1050,7 @@ try{prevInfo()}catch(e){console.error('Info:',e)}
 try{prevEncerramento()}catch(e){console.error('Enc:',e)}
 try{prevCertificado()}catch(e){console.error('Cert:',e)}
 try{prevAvaliacao()}catch(e){console.error('Aval:',e)}
+try{prevRestrito()}catch(e){console.error('Restrito:',e)}
 })();
 </script>
 </div>
