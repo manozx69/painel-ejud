@@ -313,34 +313,18 @@ Equipe de Suporte da Escola Judicial (EJUD).</textarea></div>
 <div class="eg-tab-content" id="tab-restrito">
 <div class="eg-card">
 <div class="eg-card-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Curso Restrito</div>
-<p class="eg-hint" style="margin-bottom:14px">Gera um bloco de solicitação de inscrição por e-mail para cursos com acesso restrito.</p>
-<div class="eg-grid">
+<div class="eg-grid" style="margin-bottom:16px">
 <div class="eg-wide"><label class="eg-label">Título do Aviso</label><input class="eg-input" id="rst-titulo" value="Curso restrito a servidores autorizados"></div>
-<div class="eg-wide"><label class="eg-label">Descrição</label><textarea class="eg-textarea" id="rst-desc" style="min-height:80px">Este curso é destinado aos servidores previamente autorizados pela Direção. Se você já foi liberado, solicite sua inscrição:</textarea></div>
-<div><label class="eg-label">Texto do Botão</label><input class="eg-input" id="rst-btn-texto" value="Solicitar inscrição por e-mail"></div>
 <div><label class="eg-label">Tipo</label><select class="eg-select" id="rst-tipo"><option value="restrito">Restrito (cinza escuro)</option><option value="atencao">Atenção (amarelo)</option><option value="urgente">Urgente (vermelho)</option></select></div>
+<div><label class="eg-label">Nome do Curso <small style="color:#8E99A8;font-weight:400">({CURSO} nos e-mails)</small></label><input class="eg-input" id="rst-curso" placeholder="Ex: Curso de Gestão Judicial"></div>
 </div>
+<p class="eg-hint" style="margin-bottom:16px">Adicione blocos de mensagem e botão. Arraste ou use as setas para reorganizar.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+<button class="eg-add" onclick="egRstAdd('mensagem')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Mensagem</button>
+<button class="eg-add" onclick="egRstAdd('botao-link')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Botão Link</button>
+<button class="eg-add" onclick="egRstAdd('botao-email')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Botão E-mail</button>
 </div>
-<div class="eg-card" style="margin-top:12px">
-<div class="eg-card-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D8F3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> Configuração do E-mail</div>
-<div class="eg-grid">
-<div class="eg-wide"><label class="eg-label">E-mails de Destino <small style="color:#8E99A8;font-weight:400">(separe com vírgula)</small></label><input class="eg-input" id="rst-email" value="ejud@tjam.jus.br" placeholder="email1@tjam.jus.br, email2@tjam.jus.br"></div>
-<div><label class="eg-label">Nome do Curso</label><input class="eg-input" id="rst-curso" placeholder="Ex: Curso de Gestão Judicial"></div>
-<div class="eg-wide"><label class="eg-label">Assunto <small style="color:#8E99A8;font-weight:400">({CURSO} = nome do curso)</small></label><input class="eg-input" id="rst-assunto" value="Solicitação de inscrição - {CURSO}"></div>
-<div class="eg-wide"><label class="eg-label">Corpo do E-mail <small style="color:#8E99A8;font-weight:400">({CURSO} = nome do curso)</small></label><textarea class="eg-textarea" id="rst-corpo" style="min-height:200px;font-family:monospace;font-size:13px;line-height:1.6">Olá, equipe da EJUD,
-
-Solicito minha inscrição no curso "{CURSO}".
-
-Meus dados para verificação:
-- Nome completo: [PREENCHA SEU NOME]
-- CPF: [PREENCHA SEU CPF]
-- Lotação/Setor: [PREENCHA SUA LOTAÇÃO]
-- E-mail cadastrado no AVA: [PREENCHA SEU E-MAIL]
-
-Aguardo a liberação.
-
-Atenciosamente.</textarea></div>
-</div>
+<div id="rst-blocks"></div>
 </div>
 <div class="eg-copy-wrap"><button class="eg-copy" onclick="egCopy('restrito')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h13v13H9z"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar HTML para Moodle</button></div>
 <div class="eg-preview-tag">PREVIEW</div>
@@ -440,6 +424,12 @@ window.vdMat=[{nome:'',link:''}];
 var bnButtons=window.bnButtons;
 var vdInst=window.vdInst;
 var vdMat=window.vdMat;
+window.rstBlocks=[
+{type:'mensagem',value:'Este curso é destinado aos servidores previamente autorizados pela Direção. Se você já foi liberado, solicite sua inscrição:'},
+{type:'botao-email',texto:'Solicitar inscrição por e-mail',emails:'ejud@tjam.jus.br',assunto:'Solicitação de inscrição - {CURSO}',corpo:'Olá, equipe da EJUD,\n\nSolicito minha inscrição no curso \"{CURSO}\".\n\nMeus dados para verificação:\n- Nome completo: [PREENCHA SEU NOME]\n- CPF: [PREENCHA SEU CPF]\n- Lotação/Setor: [PREENCHA SUA LOTAÇÃO]\n- E-mail cadastrado no AVA: [PREENCHA SEU E-MAIL]\n\nAguardo a liberação.\n\nAtenciosamente.'}
+];
+var rstBlocks=window.rstBlocks;
+var rstDragIdx=null;
 
 // ===== TABS =====
 window.egTab=function(id){
@@ -802,6 +792,65 @@ window.egDrop=function(e,i){
 };
 window.egDragEnd=function(e){var bl=e.target.closest('.eg-block');if(bl)bl.classList.remove('dragging');dragIdx=null};
 
+// ===== RESTRITO BLOCKS =====
+window.egRstAdd=function(type){
+  if(type==='mensagem') rstBlocks.push({type:'mensagem',value:''});
+  else if(type==='botao-link') rstBlocks.push({type:'botao-link',texto:'',link:''});
+  else if(type==='botao-email') rstBlocks.push({type:'botao-email',texto:'',emails:'ejud@tjam.jus.br',assunto:'Solicitação de inscrição - {CURSO}',corpo:''});
+  renderRstBlocks();
+};
+window.egRstMove=function(from,dir){
+  var to=from+dir;if(to<0||to>=rstBlocks.length)return;
+  var tmp=rstBlocks[from];rstBlocks[from]=rstBlocks[to];rstBlocks[to]=tmp;
+  renderRstBlocks();
+};
+window.egRstDel=function(i){rstBlocks.splice(i,1);renderRstBlocks()};
+window.egRstVal=function(i,field,val){rstBlocks[i][field]=val};
+window.egRstDragStart=function(e,i){rstDragIdx=i;var bl=e.target.closest('.eg-block');if(bl)bl.classList.add('dragging');e.dataTransfer.effectAllowed='move'};
+window.egRstDrop=function(e,i){
+  e.preventDefault();var bl=e.target.closest('.eg-block');if(bl)bl.classList.remove('drag-over');
+  if(rstDragIdx===null||rstDragIdx===i)return;
+  var tmp=rstBlocks[rstDragIdx];rstBlocks.splice(rstDragIdx,1);rstBlocks.splice(i,0,tmp);
+  rstDragIdx=null;renderRstBlocks();
+};
+window.egRstDragEnd=function(e){var bl=e.target.closest('.eg-block');if(bl)bl.classList.remove('dragging');rstDragIdx=null};
+
+function renderRstBlocks(){
+  var c=document.getElementById('rst-blocks');if(!c)return;
+  var arrowUp=svg('chevron-up',14,'#6B7789');
+  var arrowDn=svg('chevron-down',14,'#6B7789');
+  var trashIc=svg('trash',14,'#C53030');
+  var gripIc='<span class="eg-drag-handle">'+svg('grip',14,'#8E99A8')+'</span>';
+  var h='';
+  rstBlocks.forEach(function(bl,i){
+    var typeLabel=bl.type==='mensagem'?'MENSAGEM':bl.type==='botao-link'?'BOTÃO LINK':'BOTÃO E-MAIL';
+    h+='<div class="eg-block" data-idx="'+i+'">';
+    h+='<div class="eg-block-head" draggable="true" ondragstart="egRstDragStart(event,'+i+')" ondragover="egDragOver(event)" ondragenter="egDragEnter(event)" ondragleave="egDragLeave(event)" ondrop="egRstDrop(event,'+i+')" ondragend="egRstDragEnd(event)">'+gripIc+' <span class="eg-block-type">'+typeLabel+'</span>';
+    h+='<div class="eg-block-actions">';
+    if(i>0) h+='<button onclick="egRstMove('+i+',-1)" title="Subir">'+arrowUp+'</button>';
+    if(i<rstBlocks.length-1) h+='<button onclick="egRstMove('+i+',1)" title="Descer">'+arrowDn+'</button>';
+    h+='<button onclick="egRstDel('+i+')" title="Remover">'+trashIc+'</button>';
+    h+='</div></div>';
+    h+='<div class="eg-block-body">';
+    if(bl.type==='mensagem'){
+      h+='<textarea class="eg-textarea" placeholder="Digite a mensagem" oninput="egRstVal('+i+',\'value\',this.value)">'+(bl.value||'')+'</textarea>';
+    } else if(bl.type==='botao-link'){
+      h+='<div class="eg-grid"><div><label class="eg-label">Texto do Botão</label><input class="eg-input" value="'+(bl.texto||'').replace(/"/g,'&quot;')+'" placeholder="Ex: Acessar Curso" oninput="egRstVal('+i+',\'texto\',this.value)"></div>';
+      h+='<div><label class="eg-label">Link (URL)</label><input class="eg-input" value="'+(bl.link||'').replace(/"/g,'&quot;')+'" placeholder="https://..." oninput="egRstVal('+i+',\'link\',this.value)"></div></div>';
+    } else if(bl.type==='botao-email'){
+      h+='<div class="eg-grid">';
+      h+='<div class="eg-wide"><label class="eg-label">Texto do Botão</label><input class="eg-input" value="'+(bl.texto||'').replace(/"/g,'&quot;')+'" placeholder="Ex: Solicitar inscrição por e-mail" oninput="egRstVal('+i+',\'texto\',this.value)"></div>';
+      h+='<div class="eg-wide"><label class="eg-label">E-mails de Destino <small style="color:#8E99A8;font-weight:400">(separe com vírgula)</small></label><input class="eg-input" value="'+(bl.emails||'').replace(/"/g,'&quot;')+'" placeholder="email1@tjam.jus.br, email2@tjam.jus.br" oninput="egRstVal('+i+',\'emails\',this.value)"></div>';
+      h+='<div class="eg-wide"><label class="eg-label">Assunto <small style="color:#8E99A8;font-weight:400">({CURSO} = nome do curso)</small></label><input class="eg-input" value="'+(bl.assunto||'').replace(/"/g,'&quot;')+'" placeholder="Solicitação de inscrição - {CURSO}" oninput="egRstVal('+i+',\'assunto\',this.value)"></div>';
+      h+='<div class="eg-wide"><label class="eg-label">Corpo do E-mail <small style="color:#8E99A8;font-weight:400">({CURSO} = nome do curso)</small></label><textarea class="eg-textarea" style="min-height:140px;font-family:monospace;font-size:13px;line-height:1.6" placeholder="Corpo do e-mail..." oninput="egRstVal('+i+',\'corpo\',this.value)">'+(bl.corpo||'')+'</textarea></div>';
+      h+='</div>';
+    }
+    h+='</div></div>';
+  });
+  c.innerHTML=h;
+  egUpdatePreview('restrito');
+}
+
 // ===== INFO GEN =====
 function genInfo(forCopy){
   var v=function(id){return document.getElementById(id)?document.getElementById(id).value:''};
@@ -989,19 +1038,25 @@ function genRestrito(forCopy){
   var colors={restrito:{bg:'#2D3748',border:'#4A5568',hdr:'#1A202C',accent:'#A0AEC0'},atencao:{bg:'#B7791F',border:'#F6E05E',hdr:'#975A16',accent:'#F6E05E'},urgente:{bg:'#C53030',border:'#FED7D7',hdr:'#9B2C2C',accent:'#FC8181'}};
   var c=colors[tipo]||colors.restrito;
   var nomeCurso=v('rst-curso')||'este curso';
-  var emailDest=v('rst-email')||'ejud@tjam.jus.br';
-  var emailsClean=emailDest.split(',').map(function(e){return e.trim()}).join(',');
-  var assuntoRaw=v('rst-assunto')||'Solicitação de inscrição - {CURSO}';
-  var assunto=encodeURIComponent(assuntoRaw.replace(/\{CURSO\}/g,nomeCurso));
-  var corpoRaw=v('rst-corpo')||'';
-  var corpoFinal=corpoRaw.replace(/\{CURSO\}/g,nomeCurso);
-  var corpo=encodeURIComponent(corpoFinal);
-  var mailtoLink='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(emailsClean)+'&su='+assunto+'&body='+corpo;
   var html='<div class="rs-card"><div class="rs-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span>Acesso Restrito</span></div>';
   html+='<div class="rs-body"><div class="rs-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>';
   html+='<div class="rs-content"><h3>'+v('rst-titulo')+'</h3>';
-  html+='<p>'+v('rst-desc').replace(/\n/g,'<br>')+'</p>';
-  html+='<a href="'+mailtoLink+'" target="_blank" rel="noopener noreferrer" class="rs-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> '+v('rst-btn-texto')+'</a>';
+  rstBlocks.forEach(function(bl){
+    if(bl.type==='mensagem'&&bl.value){
+      html+='<p class="rs-msg">'+bl.value.replace(/\n/g,'<br>')+'</p>';
+    } else if(bl.type==='botao-link'&&bl.texto){
+      html+='<div class="rs-btn-wrap"><a href="'+(bl.link||'#')+'" target="_blank" rel="noopener noreferrer" class="rs-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg> '+bl.texto+'</a></div>';
+    } else if(bl.type==='botao-email'&&bl.texto){
+      var emailsClean=(bl.emails||'ejud@tjam.jus.br').split(',').map(function(e){return e.trim()}).join(',');
+      var assuntoRaw=bl.assunto||'Solicitação de inscrição - {CURSO}';
+      var assunto=encodeURIComponent(assuntoRaw.replace(/\{CURSO\}/g,nomeCurso));
+      var corpoRaw=bl.corpo||'';
+      var corpoFinal=corpoRaw.replace(/\{CURSO\}/g,nomeCurso);
+      var corpo=encodeURIComponent(corpoFinal);
+      var mailtoLink='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(emailsClean)+'&su='+assunto+'&body='+corpo;
+      html+='<div class="rs-btn-wrap"><a href="'+mailtoLink+'" target="_blank" rel="noopener noreferrer" class="rs-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> '+bl.texto+'</a></div>';
+    }
+  });
   html+='</div></div>';
   html+='<div class="rs-footer"><span>'+FOOTER+'</span></div></div>';
   var css='#I{font-family:\'Archivo\',Helvetica,Arial,sans-serif;color:#3A4555;line-height:1.5;max-width:960px;margin:32px auto 0;box-sizing:border-box}';
@@ -1013,11 +1068,12 @@ function genRestrito(forCopy){
   css+='#I .rs-icon{flex-shrink:0;width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,'+c.bg+','+c.hdr+');display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.12)}';
   css+='#I .rs-content{flex:1}';
   css+='#I .rs-content h3{font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:24px;color:'+c.hdr+';margin:0 0 10px;line-height:1.3}';
-  css+='#I .rs-content p{font-size:14px;line-height:1.7;color:#3A4555;margin:0 0 18px;border-left:3px solid '+c.bg+';padding-left:16px}';
+  css+='#I .rs-msg{font-size:14px;line-height:1.7;color:#3A4555;margin:0 0 16px;border-left:3px solid '+c.bg+';padding-left:16px}';
+  css+='#I .rs-btn-wrap{margin:0 0 16px}';
   css+='#I .rs-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:'+c.bg+';color:#fff;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12)}';
   css+='#I .rs-footer{padding:8px 28px 14px;border-top:1px solid '+c.border+'}';
   css+='#I .rs-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}';
-  css+='@media(max-width:600px){#I .rs-body{flex-direction:column;gap:16px}#I .rs-content h3{font-size:20px}#I .rs-content p{border-left:none;padding-left:0;border-top:3px solid '+c.bg+';padding-top:12px}}';
+  css+='@media(max-width:600px){#I .rs-body{flex-direction:column;gap:16px}#I .rs-content h3{font-size:20px}#I .rs-msg{border-left:none;padding-left:0;border-top:3px solid '+c.bg+';padding-top:12px}}';
   css=css.replace(/#I /g,'#'+id+' ').replace(/#I\./g,'#'+id+' .').replace(/#I{/g,'#'+id+'{');
   if(forCopy){
     var out='<div id="'+id+'" style="display:none">\n<style>\n'+css+'\n</style>\n'+html+'\n';
@@ -1035,6 +1091,8 @@ function genRestrito(forCopy){
     return '<div id="'+id+'">\n<style>\n'+css+'\n</style>\n'+html+'\n</div>';
   }
 }
+
+
 function prevRestrito(){document.getElementById('prev-restrito').innerHTML=genRestrito(false)}
 
 // ===== COPY =====
@@ -1057,7 +1115,7 @@ window.egCopy=function(type){
 };
 
 // ===== INIT =====
-renderIconSelector();renderBtns();renderInst();renderMat();
+renderIconSelector();renderBtns();renderInst();renderMat();renderRstBlocks();
 try{prevBanner()}catch(e){console.error('Banner:',e)}
 try{prevAviso()}catch(e){console.error('Aviso:',e)}
 try{prevMeet()}catch(e){console.error('Meet:',e)}
