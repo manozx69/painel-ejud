@@ -1767,6 +1767,12 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
             </svg>
             Curso Restrito
           </div>
+          <div style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #DDE1E8">
+            <div style="flex:1;min-width:180px"><label class="eg-label">Template</label><select class="eg-select" id="rst-tpl-sel"></select></div>
+            <button class="eg-add" onclick="egRstLoadTpl()" style="height:37px">Carregar</button>
+            <button class="eg-add" onclick="egRstSaveTpl()" style="height:37px">Salvar Atual</button>
+            <button class="eg-add" onclick="egRstDelTpl()" style="height:37px;color:#C53030;border-color:#FED7D7"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C53030" stroke-width="2" stroke-linecap="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg> Excluir</button>
+          </div>
           <div class="eg-grid" style="margin-bottom: 16px">
             <div class="eg-wide">
               <label class="eg-label">Título do Aviso</label
@@ -3141,6 +3147,164 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
             dragIdx = null;
           };
 
+          // ===== RESTRITO TEMPLATES =====
+          var RST_PRESETS = [
+            {
+              nome: "Solicitação por E-mail (padrão)",
+              builtin: true,
+              titulo: "Curso restrito a servidores autorizados",
+              tipo: "restrito",
+              blocks: [
+                {
+                  type: "mensagem",
+                  value:
+                    "Este curso é destinado aos servidores previamente autorizados pela Direção. Se você já foi liberado, solicite sua inscrição:",
+                },
+                {
+                  type: "botao-email",
+                  texto: "Solicitar inscrição por e-mail",
+                  emails: "ejud@tjam.jus.br",
+                  assunto: "Solicitação de inscrição - {CURSO}",
+                  corpo:
+                    'Olá, equipe da EJUD,\n\nSolicito minha inscrição no curso "{CURSO}".\n\nMeus dados para verificação:\n- Nome completo: [PREENCHA SEU NOME]\n- CPF: [PREENCHA SEU CPF]\n- Lotação/Setor: [PREENCHA SUA LOTAÇÃO]\n- E-mail cadastrado no AVA: [PREENCHA SEU E-MAIL]\n\nAguardo a liberação.\n\nAtenciosamente.',
+                },
+              ],
+            },
+            {
+              nome: "Participantes + Solicitação",
+              builtin: true,
+              titulo: "Curso restrito a alunos do curso",
+              tipo: "restrito",
+              blocks: [
+                {
+                  type: "mensagem",
+                  value:
+                    "Este curso está disponível exclusivamente para os participantes que acompanharam as aulas de forma síncrona, ao vivo.",
+                },
+                {
+                  type: "botao-email",
+                  texto: "Participei das aulas e quero acessar o conteúdo",
+                  emails: "ejud@tjam.jus.br",
+                  assunto: "Solicitação de acesso - {CURSO} (Participante)",
+                  corpo:
+                    'Olá, equipe da EJUD,\n\nParticipei das aulas síncronas do curso "{CURSO}" e gostaria de acessar o conteúdo.\n\nMeus dados para verificação:\n- Nome completo: [PREENCHA SEU NOME]\n- CPF: [PREENCHA SEU CPF]\n- Lotação/Setor: [PREENCHA SUA LOTAÇÃO]\n- E-mail cadastrado no AVA: [PREENCHA SEU E-MAIL]\n\nAtenciosamente.',
+                },
+                {
+                  type: "mensagem",
+                  value:
+                    "Não participou das aulas, mas gostaria de ter acesso ao conteúdo do curso?",
+                },
+                {
+                  type: "botao-email",
+                  texto: "Solicitar acesso ao curso",
+                  emails: "ejud@tjam.jus.br",
+                  assunto: "Solicitação de acesso - {CURSO}",
+                  corpo:
+                    'Olá, equipe da EJUD,\n\nNão participei das aulas síncronas, mas gostaria de solicitar acesso ao conteúdo do curso "{CURSO}".\n\nMeus dados:\n- Nome completo: [PREENCHA SEU NOME]\n- CPF: [PREENCHA SEU CPF]\n- Lotação/Setor: [PREENCHA SUA LOTAÇÃO]\n- E-mail cadastrado no AVA: [PREENCHA SEU E-MAIL]\n\nAtenciosamente.',
+                },
+              ],
+            },
+          ];
+
+          function getRstUserTpls() {
+            try {
+              return JSON.parse(
+                localStorage.getItem("ejud-rst-templates") || "[]",
+              );
+            } catch (e) {
+              return [];
+            }
+          }
+          function setRstUserTpls(arr) {
+            localStorage.setItem("ejud-rst-templates", JSON.stringify(arr));
+          }
+
+          function renderRstTplSelect() {
+            var sel = document.getElementById("rst-tpl-sel");
+            if (!sel) return;
+            var user = getRstUserTpls();
+            var h =
+              '<option value="" disabled selected>Selecione um template...</option>';
+            h += '<optgroup label="Pré-definidos">';
+            RST_PRESETS.forEach(function (t, i) {
+              h += '<option value="p-' + i + '">' + t.nome + "</option>";
+            });
+            h += "</optgroup>";
+            if (user.length) {
+              h += '<optgroup label="Meus Templates">';
+              user.forEach(function (t, i) {
+                h += '<option value="u-' + i + '">' + t.nome + "</option>";
+              });
+              h += "</optgroup>";
+            }
+            sel.innerHTML = h;
+          }
+
+          window.egRstLoadTpl = function () {
+            var sel = document.getElementById("rst-tpl-sel");
+            if (!sel || !sel.value) return;
+            var parts = sel.value.split("-");
+            var src = parts[0];
+            var idx = parseInt(parts[1]);
+            var tpl =
+              src === "p" ? RST_PRESETS[idx] : getRstUserTpls()[idx];
+            if (!tpl) return;
+            document.getElementById("rst-titulo").value = tpl.titulo || "";
+            document.getElementById("rst-tipo").value = tpl.tipo || "restrito";
+            rstBlocks.length = 0;
+            tpl.blocks.forEach(function (b) {
+              rstBlocks.push(JSON.parse(JSON.stringify(b)));
+            });
+            renderRstBlocks();
+          };
+
+          window.egRstSaveTpl = function () {
+            var nome = prompt("Nome do template:");
+            if (!nome || !nome.trim()) return;
+            var tpl = {
+              nome: nome.trim(),
+              titulo: document.getElementById("rst-titulo").value,
+              tipo: document.getElementById("rst-tipo").value,
+              blocks: JSON.parse(JSON.stringify(rstBlocks)),
+            };
+            var user = getRstUserTpls();
+            var existe = user.findIndex(function (t) {
+              return t.nome === tpl.nome;
+            });
+            if (existe >= 0) {
+              if (
+                !confirm(
+                  "Já existe um template com esse nome. Deseja substituir?",
+                )
+              )
+                return;
+              user[existe] = tpl;
+            } else {
+              user.push(tpl);
+            }
+            setRstUserTpls(user);
+            renderRstTplSelect();
+            alert('Template "' + tpl.nome + '" salvo!');
+          };
+
+          window.egRstDelTpl = function () {
+            var sel = document.getElementById("rst-tpl-sel");
+            if (!sel || !sel.value) return;
+            var parts = sel.value.split("-");
+            if (parts[0] === "p") {
+              alert("Templates pré-definidos não podem ser excluídos.");
+              return;
+            }
+            var idx = parseInt(parts[1]);
+            var user = getRstUserTpls();
+            if (!user[idx]) return;
+            if (!confirm('Excluir o template "' + user[idx].nome + '"?'))
+              return;
+            user.splice(idx, 1);
+            setRstUserTpls(user);
+            renderRstTplSelect();
+          };
+
           // ===== RESTRITO BLOCKS =====
           window.egRstAdd = function (type) {
             if (type === "mensagem")
@@ -3930,6 +4094,7 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           renderInst();
           renderMat();
           renderRstBlocks();
+          renderRstTplSelect();
           try {
             prevBanner();
           } catch (e) {
