@@ -6,6 +6,20 @@
 
 ---
 
+## 2026-07-02 — Reordenação de campos da aba Banner do Curso
+
+- Reagrupados os campos do formulário do Banner para seguir o fluxo visual do
+  banner gerado: (1) Identidade — Nome, Subtítulo, Modalidade, Carga Horária,
+  **Tema/Sistema e Ícone** (que estavam soltos no meio, agora junto do hero);
+  (2) Datas/horário — Temporalidade, Período/Data, Detalhe, Horário;
+  (3) Local e Certificação; (4) Conteúdo — Objetivo e Público.
+- "Horário (opcional)" deixou de ser campo largo (wide) e passou a meia-coluna,
+  pareando com o "Detalhe" e eliminando a célula órfã na grade.
+- Rótulo "Detalhe (opcional)" renomeado para "Período/Data — Detalhe (opcional)",
+  ficando consistente com "Local — Detalhe" e "Certificador — Detalhe"; placeholder
+  ajustado para refletir o uso real (ex.: "Horário Livre, I Ciclo").
+- Sem mudança de comportamento/IDs — apenas ordem, largura e rótulo.
+
 ## 2026-07-02 — Correção de bugs de média prioridade
 
 - **Escape de entrada do usuário (anti-corrupção/injeção de HTML).** Os helpers
