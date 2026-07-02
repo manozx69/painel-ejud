@@ -2069,6 +2069,11 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
               .replace(/>/g, "&gt;")
               .replace(/"/g, "&quot;");
           }
+          // Valor cru de um campo (sem escape) — p/ uso em encodeURIComponent etc.
+          function rawVal(id) {
+            var el = document.getElementById(id);
+            return el ? el.value : "";
+          }
 
           // ===== STATE =====
           var selectedIcon = "scale";
@@ -2322,8 +2327,10 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
               return l.indexOf("meet.google.com/") > -1;
             });
             if (ll) {
-              var m = ll.match(/(https?:\/\/meet\.google\.com\/[a-z\-]+)/);
-              if (m) document.getElementById("mt-link").value = m[1];
+              var m = ll.match(/(https?:\/\/)?(meet\.google\.com\/[a-z-]+)/i);
+              if (m)
+                document.getElementById("mt-link").value =
+                  (m[1] || "https://") + m[2];
             }
             var ph = lines.find(function (l) {
               return /disque|dial/i.test(l);
@@ -2415,7 +2422,8 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           // ===== BANNER GEN =====
           function genBanner(forCopy) {
             var v = function (id) {
-              return document.getElementById(id).value;
+              var el = document.getElementById(id);
+              return esc(el ? el.value : "");
             };
             var modKey = v("bn-mod");
             var mod = MODS[modKey] || MODS.autoinstrucional;
@@ -2436,11 +2444,11 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
               .map(function (b) {
                 return (
                   '<a href="' +
-                  (b.link || "#") +
+                  esc(b.link || "#") +
                   '" target="_blank" rel="noopener noreferrer" class="eb-act-btn">' +
                   svg("external-link", 16, "#fff") +
                   " " +
-                  b.label +
+                  esc(b.label) +
                   "</a>"
                 );
               })
@@ -2615,7 +2623,8 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           // ===== AVISO GEN =====
           function genAviso(forCopy) {
             var v = function (id) {
-              return document.getElementById(id).value;
+              var el = document.getElementById(id);
+              return esc(el ? el.value : "");
             };
             var u = v("av-tipo") === "urgente";
             var id = forCopy ? "ejud-aviso-" + Date.now() : "ejud-prev-aviso";
@@ -2687,7 +2696,8 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           // ===== MEET GEN =====
           function genMeet(forCopy) {
             var v = function (id) {
-              return document.getElementById(id).value;
+              var el = document.getElementById(id);
+              return esc(el ? el.value : "");
             };
             var id = forCopy ? "ejud-meet-" + Date.now() : "ejud-prev-meet";
             var html =
@@ -2744,7 +2754,8 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           // ===== VIDEO GEN =====
           function genVideo(forCopy) {
             var v = function (id) {
-              return document.getElementById(id).value;
+              var el = document.getElementById(id);
+              return esc(el ? el.value : "");
             };
             var id = forCopy ? "ejud-video-" + Date.now() : "ejud-prev-video";
             var eu = getEmbed(v("vd-url"));
@@ -2769,7 +2780,10 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
                       "</span></span>"
                     : "";
                   return (
-                    '<span class="ev-inst-name">' + inst.nome + "</span>" + tip
+                    '<span class="ev-inst-name">' +
+                    esc(inst.nome) +
+                    "</span>" +
+                    tip
                   );
                 })
                 .join('<span class="ev-dot">·</span>');
@@ -2786,9 +2800,9 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
                       '<div class="ev-mat">' +
                       svg("file-text", 16, "#0D8F3E") +
                       ' <a href="' +
-                      m.link +
+                      esc(m.link) +
                       '" target="_blank" rel="noopener noreferrer" class="ev-mat-link">' +
-                      m.nome +
+                      esc(m.nome) +
                       "</a> " +
                       svg("external-link", 12, "#8E99A8") +
                       "</div>"
@@ -2797,7 +2811,7 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
                     '<div class="ev-mat">' +
                     svg("file-text", 16, "#0D8F3E") +
                     ' <span class="ev-mat-text">' +
-                    m.nome +
+                    esc(m.nome) +
                     "</span></div>"
                   );
                 })
@@ -3422,9 +3436,8 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           // ===== INFO GEN =====
           function genInfo(forCopy) {
             var v = function (id) {
-              return document.getElementById(id)
-                ? document.getElementById(id).value
-                : "";
+              var el = document.getElementById(id);
+              return esc(el ? el.value : "");
             };
             var id = forCopy ? "ejud-info-" + Date.now() : "ejud-prev-info";
             var html = '<div class="ei-card">';
@@ -3461,11 +3474,11 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
             if (meta) html += '<div class="ei-infos">' + meta + "</div>";
             infoBlocks.forEach(function (bl) {
               if (bl.type === "titulo" && bl.value) {
-                html += '<h2 class="ei-title">' + bl.value + "</h2>";
+                html += '<h2 class="ei-title">' + esc(bl.value) + "</h2>";
               } else if (bl.type === "mensagem" && bl.value) {
                 html +=
                   '<div class="ei-msg">' +
-                  bl.value.replace(/\n/g, "<br>") +
+                  esc(bl.value).replace(/\n/g, "<br>") +
                   "</div>";
               } else if (bl.type === "imagem") {
                 var imgs = bl.urls.filter(function (u) {
@@ -3476,7 +3489,7 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
                   imgs.forEach(function (url) {
                     html +=
                       '<div class="ei-img-wrap"><img src="' +
-                      url +
+                      esc(url) +
                       '" alt="" class="ei-img"></div>';
                   });
                   html += "</div>";
@@ -3486,7 +3499,7 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
                 if (vu) {
                   html +=
                     '<div class="ei-video"><iframe src="' +
-                    vu +
+                    esc(vu) +
                     '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
                 }
               }
@@ -3537,9 +3550,8 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           // ===== DADOS OBRIGATÓRIOS GEN =====
           function genEncerramento(forCopy) {
             var v = function (id) {
-              return document.getElementById(id)
-                ? document.getElementById(id).value
-                : "";
+              var el = document.getElementById(id);
+              return esc(el ? el.value : "");
             };
             var id = forCopy ? "ejud-dados-" + Date.now() : "ejud-prev-enc";
             var tipo = v("enc-tipo");
@@ -3652,9 +3664,8 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           // ===== CERTIFICADO GEN =====
           function genCertificado(forCopy) {
             var v = function (id) {
-              return document.getElementById(id)
-                ? document.getElementById(id).value
-                : "";
+              var el = document.getElementById(id);
+              return esc(el ? el.value : "");
             };
             var id = forCopy ? "ejud-cert-" + Date.now() : "ejud-prev-cert";
             var html =
@@ -3780,9 +3791,8 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           // ===== AVALIAÇÃO GEN =====
           function genAvaliacao(forCopy) {
             var v = function (id) {
-              return document.getElementById(id)
-                ? document.getElementById(id).value
-                : "";
+              var el = document.getElementById(id);
+              return esc(el ? el.value : "");
             };
             var id = forCopy ? "ejud-aval-" + Date.now() : "ejud-prev-aval";
             var html =
@@ -3848,9 +3858,8 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           // ===== CURSO RESTRITO GEN =====
           function genRestrito(forCopy) {
             var v = function (id) {
-              return document.getElementById(id)
-                ? document.getElementById(id).value
-                : "";
+              var el = document.getElementById(id);
+              return esc(el ? el.value : "");
             };
             var id = forCopy
               ? "ejud-restrito-" + Date.now()
@@ -3877,7 +3886,7 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
               },
             };
             var c = colors[tipo] || colors.restrito;
-            var nomeCurso = v("rst-curso") || "este curso";
+            var nomeCurso = rawVal("rst-curso") || "este curso";
             var html =
               '<div class="rs-card"><div class="rs-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span>Acesso Restrito</span></div>';
             html +=
@@ -3887,14 +3896,14 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
               if (bl.type === "mensagem" && bl.value) {
                 html +=
                   '<p class="rs-msg">' +
-                  bl.value.replace(/\n/g, "<br>") +
+                  esc(bl.value).replace(/\n/g, "<br>") +
                   "</p>";
               } else if (bl.type === "botao-link" && bl.texto) {
                 html +=
                   '<div class="rs-btn-wrap"><a href="' +
-                  (bl.link || "#") +
+                  esc(bl.link || "#") +
                   '" target="_blank" rel="noopener noreferrer" class="rs-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg> ' +
-                  bl.texto +
+                  esc(bl.texto) +
                   "</a></div>";
               } else if (bl.type === "botao-email" && bl.texto) {
                 var emailsClean = (bl.emails || "ejud@tjam.jus.br")
@@ -3920,9 +3929,9 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
                   corpo;
                 html +=
                   '<div class="rs-btn-wrap"><a href="' +
-                  mailtoLink +
+                  esc(mailtoLink) +
                   '" target="_blank" rel="noopener noreferrer" class="rs-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> ' +
-                  bl.texto +
+                  esc(bl.texto) +
                   "</a></div>";
               }
             });

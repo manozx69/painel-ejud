@@ -6,6 +6,19 @@
 
 ---
 
+## 2026-07-02 — Correção de bugs de média prioridade
+
+- **Escape de entrada do usuário (anti-corrupção/injeção de HTML).** Os helpers
+  `v()` de todos os geradores agora retornam o valor já escapado via `esc()`, e o
+  `esc()` foi aplicado aos valores vindos de arrays (botões do banner, instrutores
+  e materiais do vídeo, blocos de Informações e de Curso Restrito). Assim,
+  caracteres como `< > & "` em títulos, mensagens e links deixam de quebrar o HTML
+  gerado. Adicionado helper `rawVal()` e usado no nome do curso do Restrito, que
+  precisa ficar cru por alimentar `encodeURIComponent` do e-mail.
+- **Parser do Google Meet aceita link sem protocolo.** Antes só capturava o link
+  se viesse com `https://`; agora reconhece `meet.google.com/xxx-xxxx-xxx` e
+  normaliza para `https://`.
+
 ## 2026-07-02 — Correção de bugs de alta prioridade
 
 - **Cópia para o Moodle com fallback e tratamento de erro** (`egCopy`). Antes,
