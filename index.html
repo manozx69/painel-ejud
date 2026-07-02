@@ -2061,6 +2061,15 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
             );
           }
 
+          // Escapa texto do usuário para inserção segura em HTML
+          function esc(s) {
+            return String(s == null ? "" : s)
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;");
+          }
+
           // ===== STATE =====
           var selectedIcon = "scale";
           window.bnButtons = [{ label: "", link: "" }];
@@ -2751,11 +2760,13 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
               instHtml = validInst
                 .map(function (inst) {
                   var tip = inst.info
-                    ? ' <span class="ev-tip" tabindex="0" data-info="' +
-                      inst.info.replace(/"/g, "&quot;") +
-                      '">' +
+                    ? ' <span class="ev-tip" tabindex="0">' +
                       svg("info", 11, "#0D8F3E") +
-                      "</span>"
+                      '<span class="ev-balloon"><strong>' +
+                      esc(inst.nome) +
+                      "</strong><br>" +
+                      esc(inst.info) +
+                      "</span></span>"
                     : "";
                   return (
                     '<span class="ev-inst-name">' + inst.nome + "</span>" + tip
@@ -2852,19 +2863,10 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
               '</div><div class="ev-footer"><span>' +
               FOOTER +
               "</span></div></div>";
-            if (
-              forCopy &&
-              validInst.some(function (i) {
-                return i.info;
-              })
-            ) {
-              html +=
-                '\n<script>\n(function(){var c=document.getElementById("' +
-                id +
-                '");if(!c)return;c.addEventListener("click",function(e){var t=e.target.closest(".ev-tip");if(t){e.stopPropagation();var old=c.querySelector(".ev-balloon");if(old)old.remove();var b=document.createElement("div");b.className="ev-balloon";b.innerHTML="<strong>"+t.previousElementSibling.textContent+"</strong><br>"+t.getAttribute("data-info");t.parentNode.style.position="relative";t.parentNode.appendChild(b);return}var bl=e.target.closest(".ev-balloon");if(!bl){var ex=c.querySelector(".ev-balloon");if(ex)ex.remove()}})})();\n<\/script>';
-            }
+            // Tooltip do instrutor é 100% CSS (:hover/:focus) — sem <script>,
+            // pois o editor do Moodle costuma remover tags <script> ao salvar.
             var css =
-              "#I .ev-card{max-width:960px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid #DDE1E8;background:#fff}#I .ev-header{display:flex;align-items:center;gap:12px;padding:20px 32px;background:#0A2E1B}#I .ev-header span{font-size:15px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}#I .ev-video{position:relative;padding-bottom:56.25%;background:#000}#I .ev-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}#I .ev-body{padding:24px 28px}#I .ev-body h3{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:32px;color:#1A2E22;margin:0 0 8px}#I .ev-desc{font-size:16px;line-height:1.7;color:#3A4555;margin:0 0 16px;border-left:3px solid #0D8F3E;padding-left:16px}#I .ev-date{display:flex;align-items:center;gap:6px;margin-bottom:12px;font-size:13px;color:#6B7789}#I .ev-insts{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:16px}#I .ev-insts-l{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8E99A8;margin-right:4px}#I .ev-inst-name{font-size:15px;font-weight:600;color:#0D8F3E}#I .ev-dot{color:#DDE1E8;margin:0 4px}#I .ev-tip{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(13,143,62,0.15);vertical-align:middle}#I .ev-balloon{position:absolute;bottom:calc(100% + 8px);left:0;min-width:280px;padding:16px 20px;background:linear-gradient(135deg,#1a237e,#0d1b3e);border:1px solid rgba(26,35,126,0.4);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.2);z-index:100;font-size:12px;line-height:1.6;color:rgba(255,255,255,0.85);white-space:pre-wrap}#I .ev-balloon strong{color:#fff;font-size:13px;display:block;margin-bottom:6px}#I .ev-mats{margin-top:16px;padding:16px 20px;background:#F7F8FA;border-radius:8px;border:1px solid #DDE1E8}#I .ev-mats-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8;margin-bottom:10px;display:flex;align-items:center;gap:6px}#I .ev-mat{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #DDE1E8}#I .ev-mat:last-child{border-bottom:none}#I .ev-mat-link{font-size:15px;font-weight:600;color:#0D8F3E;text-decoration:none}#I .ev-mat-text{font-size:15px;font-weight:500;color:#3A4555}#I .ev-footer{padding:10px 28px 16px}#I .ev-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}";
+              "#I .ev-card{max-width:960px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid #DDE1E8;background:#fff}#I .ev-header{display:flex;align-items:center;gap:12px;padding:20px 32px;background:#0A2E1B}#I .ev-header span{font-size:15px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}#I .ev-video{position:relative;padding-bottom:56.25%;background:#000}#I .ev-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}#I .ev-body{padding:24px 28px}#I .ev-body h3{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:32px;color:#1A2E22;margin:0 0 8px}#I .ev-desc{font-size:16px;line-height:1.7;color:#3A4555;margin:0 0 16px;border-left:3px solid #0D8F3E;padding-left:16px}#I .ev-date{display:flex;align-items:center;gap:6px;margin-bottom:12px;font-size:13px;color:#6B7789}#I .ev-insts{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:16px}#I .ev-insts-l{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8E99A8;margin-right:4px}#I .ev-inst-name{font-size:15px;font-weight:600;color:#0D8F3E}#I .ev-dot{color:#DDE1E8;margin:0 4px}#I .ev-tip{position:relative;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(13,143,62,0.15);vertical-align:middle}#I .ev-balloon{display:none;position:absolute;bottom:calc(100% + 8px);left:0;min-width:280px;padding:16px 20px;background:linear-gradient(135deg,#1a237e,#0d1b3e);border:1px solid rgba(26,35,126,0.4);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.2);z-index:100;font-size:12px;line-height:1.6;color:rgba(255,255,255,0.85);white-space:pre-wrap}#I .ev-tip:hover .ev-balloon,#I .ev-tip:focus .ev-balloon,#I .ev-tip:focus-within .ev-balloon{display:block}#I .ev-balloon strong{color:#fff;font-size:13px;display:block;margin-bottom:6px}#I .ev-mats{margin-top:16px;padding:16px 20px;background:#F7F8FA;border-radius:8px;border:1px solid #DDE1E8}#I .ev-mats-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8;margin-bottom:10px;display:flex;align-items:center;gap:6px}#I .ev-mat{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #DDE1E8}#I .ev-mat:last-child{border-bottom:none}#I .ev-mat-link{font-size:15px;font-weight:600;color:#0D8F3E;text-decoration:none}#I .ev-mat-text{font-size:15px;font-weight:500;color:#3A4555}#I .ev-footer{padding:10px 28px 16px}#I .ev-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}";
             css = css
               .replace(/#I /g, "#" + id + " ")
               .replace(/#I{/g, "#" + id + "{");
@@ -2872,55 +2874,7 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           }
           function prevVideo() {
             document.getElementById("prev-video").innerHTML = genVideo(false);
-            // Setup tooltip for preview
-            var pv = document.getElementById("ejud-prev-video");
-            if (pv) {
-              pv.addEventListener("click", function (e) {
-                var t = e.target.closest(".ev-tip");
-                if (t) {
-                  e.stopPropagation();
-                  var old = pv.querySelector(".ev-balloon");
-                  if (old) old.remove();
-                  var b = document.createElement("div");
-                  b.className = "ev-balloon";
-                  b.innerHTML =
-                    "<strong>" +
-                    t.previousElementSibling.textContent +
-                    "</strong><br>" +
-                    t.getAttribute("data-info");
-                  t.parentNode.style.position = "relative";
-                  t.parentNode.appendChild(b);
-                  return;
-                }
-                var bl = e.target.closest(".ev-balloon");
-                if (!bl) {
-                  var ex = pv.querySelector(".ev-balloon");
-                  if (ex) ex.remove();
-                }
-              });
-              // Hover support
-              pv.addEventListener("mouseover", function (e) {
-                var t = e.target.closest(".ev-tip");
-                if (t && !pv.querySelector(".ev-balloon")) {
-                  var b = document.createElement("div");
-                  b.className = "ev-balloon";
-                  b.innerHTML =
-                    "<strong>" +
-                    t.previousElementSibling.textContent +
-                    "</strong><br>" +
-                    t.getAttribute("data-info");
-                  t.parentNode.style.position = "relative";
-                  t.parentNode.appendChild(b);
-                }
-              });
-              pv.addEventListener("mouseout", function (e) {
-                var t = e.target.closest(".ev-tip");
-                if (t) {
-                  var bl = pv.querySelector(".ev-balloon");
-                  if (bl) bl.remove();
-                }
-              });
-            }
+            // Tooltip do instrutor agora é 100% CSS (:hover/:focus) — sem JS.
           }
 
           // ===== INFO BLOCKS =====
@@ -4076,16 +4030,46 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
             else if (type === "certificado") html = genCertificado(true);
             else if (type === "avaliacao") html = genAvaliacao(true);
             else if (type === "restrito") html = genRestrito(true);
-            navigator.clipboard.writeText(html).then(function () {
-              var btn = document.querySelector("#tab-" + type + " .eg-copy");
-              btn.classList.add("ok");
-              btn.innerHTML = svg("check", 14, "#fff") + " Copiado!";
+
+            var btn = document.querySelector("#tab-" + type + " .eg-copy");
+            function feedback(ok) {
+              if (!btn) return;
+              btn.classList.toggle("ok", ok);
+              btn.innerHTML = ok
+                ? svg("check", 14, "#fff") + " Copiado!"
+                : svg("copy", 14, "#fff") + " Falhou — copie manualmente (Ctrl+C)";
               setTimeout(function () {
                 btn.classList.remove("ok");
                 btn.innerHTML =
                   svg("copy", 14, "#fff") + " Copiar HTML para Moodle";
-              }, 2500);
-            });
+              }, 2800);
+            }
+            function fallbackCopy() {
+              try {
+                var ta = document.createElement("textarea");
+                ta.value = html;
+                ta.setAttribute("readonly", "");
+                ta.style.position = "fixed";
+                ta.style.top = "0";
+                ta.style.left = "-9999px";
+                document.body.appendChild(ta);
+                ta.select();
+                ta.setSelectionRange(0, ta.value.length);
+                var ok = document.execCommand("copy");
+                document.body.removeChild(ta);
+                feedback(ok);
+              } catch (e) {
+                feedback(false);
+              }
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              // 2º argumento = onRejected: cai no fallback se a API falhar
+              navigator.clipboard.writeText(html).then(function () {
+                feedback(true);
+              }, fallbackCopy);
+            } else {
+              fallbackCopy();
+            }
           };
 
           // ===== INIT =====

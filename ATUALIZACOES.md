@@ -6,6 +6,23 @@
 
 ---
 
+## 2026-07-02 — Correção de bugs de alta prioridade
+
+- **Cópia para o Moodle com fallback e tratamento de erro** (`egCopy`). Antes,
+  `navigator.clipboard.writeText` não tinha `.catch()` nem alternativa: se a API
+  falhasse (contexto não seguro, aba sem foco, navegador antigo) o botão não dava
+  feedback e nada era copiado. Agora há fallback via `<textarea>` +
+  `document.execCommand("copy")` e feedback de falha ("copie manualmente").
+- **Tooltip do instrutor (aba Vídeo) reescrito em CSS puro.** Antes dependia de um
+  `<script>` embutido no HTML copiado — que o editor do Moodle normalmente remove
+  ao salvar, quebrando o tooltip. Agora o balão é mostrado via `:hover`/`:focus`
+  (sem JS), funcionando mesmo com scripts removidos. Removidos o `<script>`
+  injetado e os listeners de preview.
+- **Adicionado helper `esc()`** (escapa `& < > "`) e aplicado ao conteúdo do balão
+  do tooltip.
+- Pendente: o `<script>` de auto-ocultação da aba **Curso Restrito** também pode
+  ser removido pelo Moodle (aguardando confirmação de comportamento do AVA).
+
 ## 2026-07-02
 
 - **Criada a documentação de contexto do projeto.** Adicionados `CONTEXTO.md`
