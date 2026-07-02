@@ -6,6 +6,20 @@
 
 ---
 
+## 2026-07-02 — Melhorias na aba Aviso
+
+- **Botão de ação (CTA) opcional:** novos campos "Texto do Botão" e "Link do
+  Botão"; quando ambos preenchidos, gera um botão no aviso (ex.: "Inscreva-se").
+- **3º tipo "Atenção" (amarelo):** o Aviso agora tem 3 níveis de cor
+  (Informativo/verde, Atenção/amarelo, Urgente/vermelho). `genAviso` reescrito com
+  mapa de estilos por tipo (ícone, rótulo e cores).
+- **Quebras de linha na Mensagem:** `av-msg` agora converte `\n` em `<br>`
+  (antes os parágrafos eram colapsados num bloco só).
+- **Presets rápidos:** botões "Inscrições abertas", "Prazo final" e "Aula
+  cancelada" que preenchem o formulário (`egAvisoPreset`).
+- Ordem dos campos mantida (já estava coerente com o layout gerado); CTA acrescido
+  ao fim do grid.
+
 ## 2026-07-02 — Reordenação de campos da aba Banner do Curso
 
 - Reagrupados os campos do formulário do Banner para seguir o fluxo visual do

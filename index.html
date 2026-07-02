@@ -889,12 +889,32 @@ Equipe de Suporte da Escola Judicial (EJUD).</textarea
             </svg>
             Dados do Aviso
           </div>
+          <p class="eg-hint" style="margin-bottom: 8px">Presets rápidos:</p>
+          <div
+            style="
+              display: flex;
+              gap: 8px;
+              flex-wrap: wrap;
+              margin-bottom: 16px;
+            "
+          >
+            <button class="eg-add" onclick="egAvisoPreset('inscricoes')">
+              Inscrições abertas
+            </button>
+            <button class="eg-add" onclick="egAvisoPreset('prazo')">
+              Prazo final
+            </button>
+            <button class="eg-add" onclick="egAvisoPreset('cancelada')">
+              Aula cancelada
+            </button>
+          </div>
           <div class="eg-grid">
             <div>
               <label class="eg-label">Tipo</label
               ><select class="eg-select" id="av-tipo">
-                <option value="informativo">Informativo</option>
-                <option value="urgente">Urgente</option>
+                <option value="informativo">Informativo (verde)</option>
+                <option value="atencao">Atenção (amarelo)</option>
+                <option value="urgente">Urgente (vermelho)</option>
               </select>
             </div>
             <div>
@@ -953,6 +973,22 @@ As inscrições para o curso PROJUDI Avançado estão abertas. Acesse o AVA EJUD
                 class="eg-input"
                 id="av-periodo"
                 placeholder="Ex: 22/09 — 15/12/2025"
+              />
+            </div>
+            <div>
+              <label class="eg-label">Texto do Botão (opcional)</label
+              ><input
+                class="eg-input"
+                id="av-btn-texto"
+                placeholder="Ex: Inscreva-se"
+              />
+            </div>
+            <div>
+              <label class="eg-label">Link do Botão (opcional)</label
+              ><input
+                class="eg-input"
+                id="av-btn-link"
+                placeholder="https://..."
               />
             </div>
           </div>
@@ -2626,13 +2662,39 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
               var el = document.getElementById(id);
               return esc(el ? el.value : "");
             };
-            var u = v("av-tipo") === "urgente";
+            var estilos = {
+              informativo: {
+                icon: "bell",
+                iconColor: "#12B54A",
+                label: "Aviso",
+                hdr: "#0A2E1B",
+                border: "#DDE1E8",
+                accent: "#0D8F3E",
+              },
+              atencao: {
+                icon: "alert-triangle",
+                iconColor: "#fff",
+                label: "Atenção",
+                hdr: "#B7791F",
+                border: "#FEFCBF",
+                accent: "#B7791F",
+              },
+              urgente: {
+                icon: "alert-triangle",
+                iconColor: "#fff",
+                label: "Aviso Urgente",
+                hdr: "#C53030",
+                border: "#FED7D7",
+                accent: "#C53030",
+              },
+            };
+            var s = estilos[v("av-tipo")] || estilos.informativo;
             var id = forCopy ? "ejud-aviso-" + Date.now() : "ejud-prev-aviso";
             var html =
               '<div class="ea-card"><div class="ea-header">' +
-              svg(u ? "alert-triangle" : "bell", 16, u ? "#fff" : "#12B54A") +
+              svg(s.icon, 16, s.iconColor) +
               " <span>" +
-              (u ? "Aviso Urgente" : "Aviso") +
+              s.label +
               "</span>" +
               (v("av-prazo")
                 ? '<span class="ea-prazo">Prazo: ' + v("av-prazo") + "</span>"
@@ -2640,8 +2702,17 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
               '</div><div class="ea-body"><h3>' +
               v("av-titulo") +
               "</h3><p>" +
-              v("av-msg") +
+              v("av-msg").replace(/\n/g, "<br>") +
               "</p>";
+            if (v("av-btn-texto") && v("av-btn-link"))
+              html +=
+                '<div class="ea-btn-wrap"><a href="' +
+                v("av-btn-link") +
+                '" target="_blank" rel="noopener noreferrer" class="ea-btn">' +
+                svg("external-link", 16, "#fff") +
+                " " +
+                v("av-btn-texto") +
+                "</a></div>";
             var avInfo = "";
             if (v("av-data"))
               avInfo +=
@@ -2678,12 +2749,14 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
               "</span></div></div>";
             var css =
               "#I .ea-card{max-width:960px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid " +
-              (u ? "#FED7D7" : "#DDE1E8") +
+              s.border +
               ";background:#fff}#I .ea-header{display:flex;align-items:center;gap:12px;padding:18px 32px;background:" +
-              (u ? "#C53030" : "#0A2E1B") +
+              s.hdr +
               "}#I .ea-header span{font-size:14px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}#I .ea-prazo{margin-left:auto;font-size:11px;font-weight:600;color:rgba(255,255,255,0.6);letter-spacing:0;text-transform:none}#I .ea-body{padding:24px 28px}#I .ea-body h3{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:30px;color:#1A2E22;margin:0 0 12px}#I .ea-body p{font-size:16px;line-height:1.8;color:#3A4555;border-left:3px solid " +
-              (u ? "#C53030" : "#0D8F3E") +
-              ";padding-left:20px;margin:0 0 16px}#I .ea-infos{display:flex;gap:16px;flex-wrap:wrap;padding:16px 0 0;border-top:1px solid #DDE1E8}#I .ea-info{display:flex;align-items:center;gap:8px;font-size:15px;color:#6B7789}#I .ea-footer{padding:10px 28px 16px}#I .ea-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}";
+              s.accent +
+              ";padding-left:20px;margin:0 0 16px}#I .ea-btn-wrap{margin:0 0 16px}#I .ea-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:" +
+              s.accent +
+              ";color:#fff;border-radius:8px;font-size:15px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12)}#I .ea-infos{display:flex;gap:16px;flex-wrap:wrap;padding:16px 0 0;border-top:1px solid #DDE1E8}#I .ea-info{display:flex;align-items:center;gap:8px;font-size:15px;color:#6B7789}#I .ea-footer{padding:10px 28px 16px}#I .ea-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}";
             css = css
               .replace(/#I /g, "#" + id + " ")
               .replace(/#I{/g, "#" + id + "{");
@@ -2692,6 +2765,48 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           function prevAviso() {
             document.getElementById("prev-aviso").innerHTML = genAviso(false);
           }
+          window.egAvisoPreset = function (key) {
+            var P = {
+              inscricoes: {
+                tipo: "informativo",
+                titulo: "Início das Inscrições",
+                msg: "As inscrições para o curso [NOME DO CURSO] estão abertas. Acesse o AVA EJUD para se inscrever.",
+                prazo: "",
+                bt: "Inscreva-se",
+                bl: "",
+              },
+              prazo: {
+                tipo: "urgente",
+                titulo: "Prazo Final se Aproximando",
+                msg: "Atenção: o prazo para [AÇÃO] encerra em [DATA]. Não deixe para a última hora.",
+                prazo: "[DATA]",
+                bt: "",
+                bl: "",
+              },
+              cancelada: {
+                tipo: "atencao",
+                titulo: "Aula Cancelada",
+                msg: "A aula prevista para [DATA] foi cancelada. Uma nova data será comunicada em breve.",
+                prazo: "",
+                bt: "",
+                bl: "",
+              },
+            };
+            var p = P[key];
+            if (!p) return;
+            document.getElementById("av-tipo").value = p.tipo;
+            document.getElementById("av-titulo").value = p.titulo;
+            document.getElementById("av-msg").value = p.msg;
+            document.getElementById("av-prazo").value = p.prazo;
+            document.getElementById("av-btn-texto").value = p.bt;
+            document.getElementById("av-btn-link").value = p.bl;
+            ["av-data", "av-horario", "av-local", "av-periodo"].forEach(
+              function (idf) {
+                document.getElementById(idf).value = "";
+              },
+            );
+            prevAviso();
+          };
 
           // ===== MEET GEN =====
           function genMeet(forCopy) {
