@@ -6,6 +6,23 @@
 
 ---
 
+## 2026-07-02 — Melhorias na aba Vídeo / Aula
+
+- **Reordenação de instrutores e materiais:** adicionadas setas ↑/↓ (helper
+  `rowActions`), em paridade com as abas Informações e Curso Restrito. Funções
+  `egInstMove`/`egMatMove`.
+- **Badge de duração:** novo campo "Duração" que gera um selo no card
+  (ex.: "Duração: 45 min").
+- **Capítulos / timestamps:** nova seção repetível (tempo + título) exibida
+  abaixo do player. Em vídeos do YouTube, o tempo vira link direto para o trecho
+  (`youtu.be/ID?t=segundos`); aceita `MM:SS` e `HH:MM:SS`. Funções `renderCaps`,
+  `egAddCap`/`egRmCap`/`egCapMove`.
+- **Mais fontes de vídeo:** `getEmbed` agora reconhece YouTube **Shorts** e
+  **Live**, e preserva o **tempo de início** (`?t=` em segundos ou `1m30s`),
+  gerando `?start=`. Helpers `ytId`/`ytStart`/`capSeconds`.
+- **Ordem dos campos:** Módulo/Aula subiram para logo abaixo do Link (espelham o
+  cabeçalho do card); Data virou meia-coluna para a grade fechar sem órfão.
+
 ## 2026-07-02 — Melhorias na aba Aviso
 
 - **Botão de ação (CTA) opcional:** novos campos "Texto do Botão" e "Link do

@@ -1176,18 +1176,6 @@ Acesse com sua conta institucional @tjam.jus.br</textarea
               />
               <p class="eg-hint">YouTube, Google Drive, Vimeo</p>
             </div>
-            <div class="eg-wide">
-              <label class="eg-label">Título da Aula</label
-              ><input class="eg-input" id="vd-titulo" />
-            </div>
-            <div class="eg-wide">
-              <label class="eg-label">Descrição da Aula (opcional)</label
-              ><textarea
-                class="eg-textarea"
-                id="vd-desc"
-                placeholder="Descrição ou resumo da aula"
-              ></textarea>
-            </div>
             <div>
               <label class="eg-label">Módulo (opcional)</label
               ><input
@@ -1201,6 +1189,18 @@ Acesse com sua conta institucional @tjam.jus.br</textarea
               ><input class="eg-input" id="vd-aula" placeholder="Ex: Aula 3" />
             </div>
             <div class="eg-wide">
+              <label class="eg-label">Título da Aula</label
+              ><input class="eg-input" id="vd-titulo" />
+            </div>
+            <div class="eg-wide">
+              <label class="eg-label">Descrição da Aula (opcional)</label
+              ><textarea
+                class="eg-textarea"
+                id="vd-desc"
+                placeholder="Descrição ou resumo da aula"
+              ></textarea>
+            </div>
+            <div>
               <label class="eg-label">Data da Aula (opcional)</label
               ><input
                 class="eg-input"
@@ -1224,6 +1224,53 @@ Acesse com sua conta institucional @tjam.jus.br</textarea
                 placeholder="Ex: AVA EJUD"
               />
             </div>
+            <div>
+              <label class="eg-label">Duração (opcional)</label
+              ><input
+                class="eg-input"
+                id="vd-duracao"
+                placeholder="Ex: 45 min"
+              />
+            </div>
+          </div>
+          <div class="eg-sep">
+            <div class="eg-sep-head">
+              <span class="eg-sep-title"
+                ><svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0D8F3E"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 12a10 10 0 1 0 20 0a10 10 0 1 0-20 0Z" />
+                  <path d="M12 6v6l4 2" />
+                </svg>
+                Capítulos (opcional)</span
+              ><button class="eg-add" onclick="egAddCap()">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0D8F3E"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                >
+                  <path d="M12 5v14" />
+                  <path d="M5 12h14" />
+                </svg>
+                Adicionar
+              </button>
+            </div>
+            <p class="eg-hint" style="margin-bottom: 10px">
+              Tempo + título. Em vídeos do YouTube, o tempo vira link direto para
+              o trecho.
+            </p>
+            <div id="vd-capitulos"></div>
           </div>
           <div class="eg-sep">
             <div class="eg-sep-head">
@@ -2116,9 +2163,11 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           window.bnButtons = [{ label: "", link: "" }];
           window.vdInst = [{ nome: "", info: "" }];
           window.vdMat = [{ nome: "", link: "" }];
+          window.vdCaps = [];
           var bnButtons = window.bnButtons;
           var vdInst = window.vdInst;
           var vdMat = window.vdMat;
+          var vdCaps = window.vdCaps;
           window.rstBlocks = [
             {
               type: "mensagem",
@@ -2258,6 +2307,44 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
             renderBtns();
           };
 
+          // Ações de linha (subir/descer/remover) p/ listas repetíveis
+          function rowActions(moveFn, delFn, i, len, minKeep) {
+            if (minKeep == null) minKeep = 1;
+            var b = "";
+            if (i > 0)
+              b +=
+                '<button class="eg-del" style="margin:0" title="Subir" onclick="' +
+                moveFn +
+                "(" +
+                i +
+                ',-1)">' +
+                svg("chevron-up", 14, "#6B7789") +
+                "</button>";
+            if (i < len - 1)
+              b +=
+                '<button class="eg-del" style="margin:0" title="Descer" onclick="' +
+                moveFn +
+                "(" +
+                i +
+                ',1)">' +
+                svg("chevron-down", 14, "#6B7789") +
+                "</button>";
+            if (len > minKeep)
+              b +=
+                '<button class="eg-del" style="margin:0" title="Remover" onclick="' +
+                delFn +
+                "(" +
+                i +
+                ')">' +
+                svg("trash", 16, "#C53030") +
+                "</button>";
+            return (
+              '<div style="display:flex;gap:4px;align-items:flex-end">' +
+              b +
+              "</div>"
+            );
+          }
+
           // ===== INSTRUTORES =====
           function renderInst() {
             var c = document.getElementById("vd-instrutores");
@@ -2276,13 +2363,7 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
                 '" placeholder="Cargo, formação..." oninput="vdInst[' +
                 i +
                 '].info=this.value"></div>' +
-                (vdInst.length > 1
-                  ? '<button class="eg-del" onclick="egRmInst(' +
-                    i +
-                    ')">' +
-                    svg("trash", 16, "#C53030") +
-                    "</button>"
-                  : "<div></div>") +
+                rowActions("egInstMove", "egRmInst", i, vdInst.length) +
                 "</div>";
             });
             c.innerHTML = h;
@@ -2293,6 +2374,14 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           };
           window.egRmInst = function (i) {
             vdInst.splice(i, 1);
+            renderInst();
+          };
+          window.egInstMove = function (i, dir) {
+            var to = i + dir;
+            if (to < 0 || to >= vdInst.length) return;
+            var t = vdInst[i];
+            vdInst[i] = vdInst[to];
+            vdInst[to] = t;
             renderInst();
           };
 
@@ -2314,13 +2403,7 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
                 '" placeholder="https://..." oninput="vdMat[' +
                 i +
                 '].link=this.value"></div>' +
-                (vdMat.length > 1
-                  ? '<button class="eg-del" onclick="egRmMat(' +
-                    i +
-                    ')">' +
-                    svg("trash", 16, "#C53030") +
-                    "</button>"
-                  : "<div></div>") +
+                rowActions("egMatMove", "egRmMat", i, vdMat.length) +
                 "</div>";
             });
             c.innerHTML = h;
@@ -2332,6 +2415,57 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           window.egRmMat = function (i) {
             vdMat.splice(i, 1);
             renderMat();
+          };
+          window.egMatMove = function (i, dir) {
+            var to = i + dir;
+            if (to < 0 || to >= vdMat.length) return;
+            var t = vdMat[i];
+            vdMat[i] = vdMat[to];
+            vdMat[to] = t;
+            renderMat();
+          };
+
+          // ===== CAPÍTULOS =====
+          function renderCaps() {
+            var c = document.getElementById("vd-capitulos");
+            if (!c) return;
+            var h = "";
+            vdCaps.forEach(function (cap, i) {
+              h +=
+                '<div class="eg-row" style="grid-template-columns:110px 1fr auto"><div><label class="eg-label">Tempo ' +
+                (i + 1) +
+                '</label><input class="eg-input" value="' +
+                (cap.tempo || "").replace(/"/g, "&quot;") +
+                '" placeholder="Ex: 05:30" oninput="vdCaps[' +
+                i +
+                '].tempo=this.value"></div><div><label class="eg-label">Título do capítulo</label><input class="eg-input" value="' +
+                (cap.titulo || "").replace(/"/g, "&quot;") +
+                '" placeholder="Ex: Introdução" oninput="vdCaps[' +
+                i +
+                '].titulo=this.value"></div>' +
+                rowActions("egCapMove", "egRmCap", i, vdCaps.length, 0) +
+                "</div>";
+            });
+            c.innerHTML = h;
+          }
+          window.egAddCap = function () {
+            vdCaps.push({ tempo: "", titulo: "" });
+            renderCaps();
+            prevVideo();
+          };
+          window.egRmCap = function (i) {
+            vdCaps.splice(i, 1);
+            renderCaps();
+            prevVideo();
+          };
+          window.egCapMove = function (i, dir) {
+            var to = i + dir;
+            if (to < 0 || to >= vdCaps.length) return;
+            var t = vdCaps[i];
+            vdCaps[i] = vdCaps[to];
+            vdCaps[to] = t;
+            renderCaps();
+            prevVideo();
           };
 
           // ===== MEET PARSER =====
@@ -2382,12 +2516,44 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           };
 
           // ===== EMBED URL =====
+          var YT_RE =
+            /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/;
+          function ytId(url) {
+            var m = (url || "").match(YT_RE);
+            return m ? m[1] : "";
+          }
+          // Converte o parâmetro t= (ex.: 90, 90s, 1m30s, 1h2m3s) em segundos
+          function ytStart(url) {
+            var m = url.match(/[?&#]t=([0-9hms]+)/i);
+            if (!m) return 0;
+            var v = m[1],
+              s = 0,
+              x;
+            if (/^\d+$/.test(v)) return parseInt(v, 10);
+            if ((x = v.match(/(\d+)\s*h/i))) s += parseInt(x[1], 10) * 3600;
+            if ((x = v.match(/(\d+)\s*m/i))) s += parseInt(x[1], 10) * 60;
+            if ((x = v.match(/(\d+)\s*s/i))) s += parseInt(x[1], 10);
+            return s;
+          }
+          // Converte "HH:MM:SS" / "MM:SS" / "SS" em segundos (ou null se inválido)
+          function capSeconds(t) {
+            var p = String(t || "")
+              .trim()
+              .split(":")
+              .map(Number);
+            if (!p.length || p.some(isNaN)) return null;
+            if (p.length === 3) return p[0] * 3600 + p[1] * 60 + p[2];
+            if (p.length === 2) return p[0] * 60 + p[1];
+            return p[0];
+          }
           function getEmbed(url) {
             if (!url) return "";
-            var m = url.match(
-              /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]+)/,
-            );
-            if (m) return "https://www.youtube.com/embed/" + m[1];
+            var m = url.match(YT_RE);
+            if (m) {
+              var e = "https://www.youtube.com/embed/" + m[1];
+              var st = ytStart(url);
+              return st > 0 ? e + "?start=" + st : e;
+            }
             m = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
             if (m)
               return "https://drive.google.com/file/d/" + m[1] + "/preview";
@@ -2932,6 +3098,38 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
                 })
                 .join("");
             }
+            var capsHtml = "";
+            var vid = ytId(rawVal("vd-url"));
+            var validCaps = vdCaps.filter(function (c) {
+              return c.titulo || c.tempo;
+            });
+            if (validCaps.length) {
+              capsHtml =
+                '<div class="ev-chapters"><div class="ev-chapters-h">' +
+                svg("clock", 12, "#8E99A8") +
+                " Capítulos</div>";
+              validCaps.forEach(function (c) {
+                var secs = vid ? capSeconds(c.tempo) : null;
+                var tempoTxt = esc(c.tempo || "") || "▶";
+                var tempoHtml =
+                  vid && secs != null
+                    ? '<a class="ev-chap-t" href="https://youtu.be/' +
+                      vid +
+                      "?t=" +
+                      secs +
+                      '" target="_blank" rel="noopener noreferrer">' +
+                      tempoTxt +
+                      "</a>"
+                    : '<span class="ev-chap-t">' + tempoTxt + "</span>";
+                capsHtml +=
+                  '<div class="ev-chap">' +
+                  tempoHtml +
+                  '<span class="ev-chap-ttl">' +
+                  esc(c.titulo || "") +
+                  "</span></div>";
+              });
+              capsHtml += "</div>";
+            }
             var html =
               '<div class="ev-card"><div class="ev-header">' +
               svg("play", 14, "#12B54A") +
@@ -2970,6 +3168,14 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
                 " <span>" +
                 v("vd-local") +
                 "</span></div>";
+            if (v("vd-duracao"))
+              html +=
+                '<div class="ev-badge">' +
+                svg("clock", 12, "#0D8F3E") +
+                " Duração: " +
+                v("vd-duracao") +
+                "</div>";
+            if (capsHtml) html += capsHtml;
             if (instHtml)
               html +=
                 '<div class="ev-insts">' +
@@ -2995,7 +3201,7 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
             // Tooltip do instrutor é 100% CSS (:hover/:focus) — sem <script>,
             // pois o editor do Moodle costuma remover tags <script> ao salvar.
             var css =
-              "#I .ev-card{max-width:960px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid #DDE1E8;background:#fff}#I .ev-header{display:flex;align-items:center;gap:12px;padding:20px 32px;background:#0A2E1B}#I .ev-header span{font-size:15px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}#I .ev-video{position:relative;padding-bottom:56.25%;background:#000}#I .ev-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}#I .ev-body{padding:24px 28px}#I .ev-body h3{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:32px;color:#1A2E22;margin:0 0 8px}#I .ev-desc{font-size:16px;line-height:1.7;color:#3A4555;margin:0 0 16px;border-left:3px solid #0D8F3E;padding-left:16px}#I .ev-date{display:flex;align-items:center;gap:6px;margin-bottom:12px;font-size:13px;color:#6B7789}#I .ev-insts{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:16px}#I .ev-insts-l{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8E99A8;margin-right:4px}#I .ev-inst-name{font-size:15px;font-weight:600;color:#0D8F3E}#I .ev-dot{color:#DDE1E8;margin:0 4px}#I .ev-tip{position:relative;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(13,143,62,0.15);vertical-align:middle}#I .ev-balloon{display:none;position:absolute;bottom:calc(100% + 8px);left:0;min-width:280px;padding:16px 20px;background:linear-gradient(135deg,#1a237e,#0d1b3e);border:1px solid rgba(26,35,126,0.4);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.2);z-index:100;font-size:12px;line-height:1.6;color:rgba(255,255,255,0.85);white-space:pre-wrap}#I .ev-tip:hover .ev-balloon,#I .ev-tip:focus .ev-balloon,#I .ev-tip:focus-within .ev-balloon{display:block}#I .ev-balloon strong{color:#fff;font-size:13px;display:block;margin-bottom:6px}#I .ev-mats{margin-top:16px;padding:16px 20px;background:#F7F8FA;border-radius:8px;border:1px solid #DDE1E8}#I .ev-mats-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8;margin-bottom:10px;display:flex;align-items:center;gap:6px}#I .ev-mat{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #DDE1E8}#I .ev-mat:last-child{border-bottom:none}#I .ev-mat-link{font-size:15px;font-weight:600;color:#0D8F3E;text-decoration:none}#I .ev-mat-text{font-size:15px;font-weight:500;color:#3A4555}#I .ev-footer{padding:10px 28px 16px}#I .ev-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}";
+              "#I .ev-card{max-width:960px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid #DDE1E8;background:#fff}#I .ev-header{display:flex;align-items:center;gap:12px;padding:20px 32px;background:#0A2E1B}#I .ev-header span{font-size:15px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.9)}#I .ev-video{position:relative;padding-bottom:56.25%;background:#000}#I .ev-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}#I .ev-body{padding:24px 28px}#I .ev-body h3{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:32px;color:#1A2E22;margin:0 0 8px}#I .ev-desc{font-size:16px;line-height:1.7;color:#3A4555;margin:0 0 16px;border-left:3px solid #0D8F3E;padding-left:16px}#I .ev-date{display:flex;align-items:center;gap:6px;margin-bottom:12px;font-size:13px;color:#6B7789}#I .ev-insts{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:16px}#I .ev-insts-l{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8E99A8;margin-right:4px}#I .ev-inst-name{font-size:15px;font-weight:600;color:#0D8F3E}#I .ev-dot{color:#DDE1E8;margin:0 4px}#I .ev-tip{position:relative;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(13,143,62,0.15);vertical-align:middle}#I .ev-balloon{display:none;position:absolute;bottom:calc(100% + 8px);left:0;min-width:280px;padding:16px 20px;background:linear-gradient(135deg,#1a237e,#0d1b3e);border:1px solid rgba(26,35,126,0.4);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.2);z-index:100;font-size:12px;line-height:1.6;color:rgba(255,255,255,0.85);white-space:pre-wrap}#I .ev-tip:hover .ev-balloon,#I .ev-tip:focus .ev-balloon,#I .ev-tip:focus-within .ev-balloon{display:block}#I .ev-balloon strong{color:#fff;font-size:13px;display:block;margin-bottom:6px}#I .ev-mats{margin-top:16px;padding:16px 20px;background:#F7F8FA;border-radius:8px;border:1px solid #DDE1E8}#I .ev-mats-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8;margin-bottom:10px;display:flex;align-items:center;gap:6px}#I .ev-mat{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #DDE1E8}#I .ev-mat:last-child{border-bottom:none}#I .ev-mat-link{font-size:15px;font-weight:600;color:#0D8F3E;text-decoration:none}#I .ev-mat-text{font-size:15px;font-weight:500;color:#3A4555}#I .ev-badge{display:inline-flex;align-items:center;gap:6px;margin:0 0 16px;padding:6px 14px;background:rgba(13,143,62,0.08);border:1px solid rgba(13,143,62,0.15);border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#0D8F3E}#I .ev-chapters{margin:0 0 16px;padding:16px 20px;background:#F7F8FA;border-radius:8px;border:1px solid #DDE1E8}#I .ev-chapters-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8;margin-bottom:10px;display:flex;align-items:center;gap:6px}#I .ev-chap{display:flex;align-items:baseline;gap:12px;padding:6px 0;border-bottom:1px solid #E8EBF0}#I .ev-chap:last-child{border-bottom:none}#I .ev-chap-t{flex-shrink:0;font-weight:700;font-size:13px;color:#0D8F3E;min-width:52px;text-decoration:none}#I .ev-chap-ttl{font-size:14px;color:#3A4555}#I .ev-footer{padding:10px 28px 16px}#I .ev-footer span{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E99A8}";
             css = css
               .replace(/#I /g, "#" + id + " ")
               .replace(/#I{/g, "#" + id + "{");
@@ -4201,6 +4407,7 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           renderBtns();
           renderInst();
           renderMat();
+          renderCaps();
           renderRstBlocks();
           renderRstTplSelect();
           try {
