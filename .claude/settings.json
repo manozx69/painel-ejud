@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && echo '===== CONTEXTO.md =====' && cat CONTEXTO.md && echo '' && echo '===== ATUALIZACOES.md =====' && cat ATUALIZACOES.md",
+            "statusMessage": "Lendo CONTEXTO.md e ATUALIZACOES.md..."
+          }
+        ]
+      }
+    ]
+  }
+}
