@@ -31,6 +31,11 @@
 - **Setup (manual, uma vez):** planilha em branco → Extensões → Apps Script →
   colar o script → Implantar como app da Web ("Qualquer pessoa") → copiar a URL
   `/exec` → colar em `EG_API`.
+- **Ativado em 2026-07-07:** `EG_API` já preenchida com a URL do app da Web
+  (script hospedado em conta TJAM, planilha "EJUD - Modelos"). CRUD testado
+  (create/list/delete) respondendo JSON publicamente. Atenção: a publicação
+  precisou ser "Qualquer pessoa" (a opção restrita ao domínio exige login e
+  quebrava o fetch do GitHub Pages).
 
 ## 2026-07-02 — Melhorias na aba Vídeo / Aula
 
