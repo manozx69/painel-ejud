@@ -1166,6 +1166,12 @@ Acesse com sua conta institucional @tjam.jus.br</textarea
             </svg>
             Dados do Vídeo / Aula
           </div>
+          <div style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #DDE1E8">
+            <div style="flex:1;min-width:180px"><label class="eg-label">Modelo salvo (global)</label><select class="eg-select" id="vd-tpl-sel"></select></div>
+            <button class="eg-add" onclick="egVdLoadTpl()" style="height:37px">Carregar</button>
+            <button class="eg-add" onclick="egVdSaveTpl()" style="height:37px">Salvar Atual</button>
+            <button class="eg-add" onclick="egVdDelTpl()" style="height:37px;color:#C53030;border-color:#FED7D7"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C53030" stroke-width="2" stroke-linecap="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg> Excluir</button>
+          </div>
           <div class="eg-grid">
             <div class="eg-wide">
               <label class="eg-label">Link do Vídeo</label
@@ -3495,34 +3501,93 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
             },
           ];
 
-          function getRstUserTpls() {
-            try {
-              return JSON.parse(
-                localStorage.getItem("ejud-rst-templates") || "[]",
+          // ===== ARMAZENAMENTO EM NUVEM (Google Planilhas via Apps Script) =====
+          // Modelos ficam salvos globalmente (todos veem os mesmos). Para ativar,
+          // cole abaixo a URL do app da Web publicado no Apps Script (termina em
+          // /exec). Veja o passo a passo em ATUALIZACOES.md.
+          var EG_API = "";
+          var egModelos = { video: [], restrito: [] };
+
+          function egApiOk() {
+            if (!EG_API) {
+              alert(
+                "Armazenamento em nuvem não configurado.\n\n" +
+                  "Cole a URL do Apps Script na constante EG_API dentro do index.html.",
               );
-            } catch (e) {
-              return [];
+              return false;
             }
+            return true;
           }
-          function setRstUserTpls(arr) {
-            localStorage.setItem("ejud-rst-templates", JSON.stringify(arr));
+          function egCloudList() {
+            if (!EG_API) return Promise.resolve([]);
+            return fetch(EG_API, { method: "GET" })
+              .then(function (r) {
+                return r.json();
+              })
+              .catch(function () {
+                return [];
+              });
+          }
+          function egCloudPost(payload) {
+            return fetch(EG_API, {
+              method: "POST",
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              body: JSON.stringify(payload),
+            }).then(function (r) {
+              return r.json();
+            });
+          }
+          function egRefreshModelos() {
+            return egCloudList().then(function (all) {
+              if (!Array.isArray(all)) all = [];
+              egModelos.video = all.filter(function (m) {
+                return m.aba === "video";
+              });
+              egModelos.restrito = all.filter(function (m) {
+                return m.aba === "restrito";
+              });
+              renderRstTplSelect();
+              renderVdTplSelect();
+            });
+          }
+
+          // ---- Snapshot da aba Curso Restrito ----
+          function readRstSnapshot() {
+            return {
+              titulo: document.getElementById("rst-titulo").value,
+              tipo: document.getElementById("rst-tipo").value,
+              curso: document.getElementById("rst-curso").value,
+              blocks: JSON.parse(JSON.stringify(rstBlocks)),
+            };
+          }
+          function applyRstSnapshot(tpl) {
+            document.getElementById("rst-titulo").value = tpl.titulo || "";
+            document.getElementById("rst-tipo").value = tpl.tipo || "restrito";
+            if (tpl.curso !== undefined)
+              document.getElementById("rst-curso").value = tpl.curso;
+            rstBlocks.length = 0;
+            (tpl.blocks || []).forEach(function (b) {
+              rstBlocks.push(JSON.parse(JSON.stringify(b)));
+            });
+            renderRstBlocks();
           }
 
           function renderRstTplSelect() {
             var sel = document.getElementById("rst-tpl-sel");
             if (!sel) return;
-            var user = getRstUserTpls();
+            var user = egModelos.restrito;
             var h =
               '<option value="" disabled selected>Selecione um template...</option>';
             h += '<optgroup label="Pré-definidos">';
             RST_PRESETS.forEach(function (t, i) {
-              h += '<option value="p-' + i + '">' + t.nome + "</option>";
+              h += '<option value="p-' + i + '">' + esc(t.nome) + "</option>";
             });
             h += "</optgroup>";
             if (user.length) {
-              h += '<optgroup label="Meus Templates">';
-              user.forEach(function (t, i) {
-                h += '<option value="u-' + i + '">' + t.nome + "</option>";
+              h += '<optgroup label="Meus Modelos (global)">';
+              user.forEach(function (t) {
+                h +=
+                  '<option value="u-' + t.id + '">' + esc(t.nome) + "</option>";
               });
               h += "</optgroup>";
             }
@@ -3532,66 +3597,225 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           window.egRstLoadTpl = function () {
             var sel = document.getElementById("rst-tpl-sel");
             if (!sel || !sel.value) return;
-            var parts = sel.value.split("-");
-            var src = parts[0];
-            var idx = parseInt(parts[1]);
-            var tpl =
-              src === "p" ? RST_PRESETS[idx] : getRstUserTpls()[idx];
+            var src = sel.value.charAt(0);
+            var key = sel.value.slice(2);
+            var tpl = null;
+            if (src === "p") {
+              tpl = RST_PRESETS[parseInt(key)];
+            } else {
+              var m = egModelos.restrito.find(function (x) {
+                return String(x.id) === key;
+              });
+              if (m)
+                try {
+                  tpl = JSON.parse(m.dados);
+                } catch (e) {
+                  tpl = null;
+                }
+            }
             if (!tpl) return;
-            document.getElementById("rst-titulo").value = tpl.titulo || "";
-            document.getElementById("rst-tipo").value = tpl.tipo || "restrito";
-            rstBlocks.length = 0;
-            tpl.blocks.forEach(function (b) {
-              rstBlocks.push(JSON.parse(JSON.stringify(b)));
-            });
-            renderRstBlocks();
+            applyRstSnapshot(tpl);
           };
 
           window.egRstSaveTpl = function () {
-            var nome = prompt("Nome do template:");
+            if (!egApiOk()) return;
+            var nome = prompt("Nome do modelo:");
             if (!nome || !nome.trim()) return;
-            var tpl = {
-              nome: nome.trim(),
-              titulo: document.getElementById("rst-titulo").value,
-              tipo: document.getElementById("rst-tipo").value,
-              blocks: JSON.parse(JSON.stringify(rstBlocks)),
-            };
-            var user = getRstUserTpls();
-            var existe = user.findIndex(function (t) {
-              return t.nome === tpl.nome;
+            nome = nome.trim();
+            var dados = JSON.stringify(readRstSnapshot());
+            var existing = egModelos.restrito.find(function (m) {
+              return m.nome === nome;
             });
-            if (existe >= 0) {
-              if (
-                !confirm(
-                  "Já existe um template com esse nome. Deseja substituir?",
-                )
-              )
+            var req;
+            if (existing) {
+              if (!confirm('Já existe um modelo "' + nome + '". Substituir?'))
                 return;
-              user[existe] = tpl;
+              req = egCloudPost({
+                action: "update",
+                id: existing.id,
+                nome: nome,
+                dados: dados,
+              });
             } else {
-              user.push(tpl);
+              req = egCloudPost({
+                action: "create",
+                aba: "restrito",
+                nome: nome,
+                dados: dados,
+              });
             }
-            setRstUserTpls(user);
-            renderRstTplSelect();
-            alert('Template "' + tpl.nome + '" salvo!');
+            req
+              .then(function () {
+                return egRefreshModelos();
+              })
+              .then(function () {
+                alert('Modelo "' + nome + '" salvo!');
+              })
+              .catch(function () {
+                alert("Falha ao salvar. Verifique a conexão e tente de novo.");
+              });
           };
 
           window.egRstDelTpl = function () {
             var sel = document.getElementById("rst-tpl-sel");
             if (!sel || !sel.value) return;
-            var parts = sel.value.split("-");
-            if (parts[0] === "p") {
+            if (sel.value.charAt(0) === "p") {
               alert("Templates pré-definidos não podem ser excluídos.");
               return;
             }
-            var idx = parseInt(parts[1]);
-            var user = getRstUserTpls();
-            if (!user[idx]) return;
-            if (!confirm('Excluir o template "' + user[idx].nome + '"?'))
+            if (!egApiOk()) return;
+            var key = sel.value.slice(2);
+            var m = egModelos.restrito.find(function (x) {
+              return String(x.id) === key;
+            });
+            if (!m) return;
+            if (!confirm('Excluir o modelo "' + m.nome + '"?')) return;
+            egCloudPost({ action: "delete", id: m.id })
+              .then(function () {
+                return egRefreshModelos();
+              })
+              .catch(function () {
+                alert("Falha ao excluir. Verifique a conexão.");
+              });
+          };
+
+          // ---- Snapshot da aba Vídeo / Aula ----
+          var VD_FIELDS = [
+            "url",
+            "modulo",
+            "aula",
+            "titulo",
+            "desc",
+            "data",
+            "horario",
+            "local",
+            "duracao",
+          ];
+          function readVdSnapshot() {
+            var o = {};
+            VD_FIELDS.forEach(function (f) {
+              var el = document.getElementById("vd-" + f);
+              o[f] = el ? el.value : "";
+            });
+            o.inst = JSON.parse(JSON.stringify(vdInst));
+            o.mat = JSON.parse(JSON.stringify(vdMat));
+            o.caps = JSON.parse(JSON.stringify(vdCaps));
+            return o;
+          }
+          function applyVdSnapshot(o) {
+            VD_FIELDS.forEach(function (f) {
+              var el = document.getElementById("vd-" + f);
+              if (el) el.value = o[f] || "";
+            });
+            vdInst.length = 0;
+            (o.inst || []).forEach(function (x) {
+              vdInst.push(JSON.parse(JSON.stringify(x)));
+            });
+            if (!vdInst.length) vdInst.push({ nome: "", info: "" });
+            vdMat.length = 0;
+            (o.mat || []).forEach(function (x) {
+              vdMat.push(JSON.parse(JSON.stringify(x)));
+            });
+            if (!vdMat.length) vdMat.push({ nome: "", link: "" });
+            vdCaps.length = 0;
+            (o.caps || []).forEach(function (x) {
+              vdCaps.push(JSON.parse(JSON.stringify(x)));
+            });
+            renderInst();
+            renderMat();
+            renderCaps();
+            prevVideo();
+          }
+
+          function renderVdTplSelect() {
+            var sel = document.getElementById("vd-tpl-sel");
+            if (!sel) return;
+            var user = egModelos.video;
+            var h;
+            if (user.length) {
+              h =
+                '<option value="" disabled selected>Selecione um modelo...</option>';
+              user.forEach(function (t) {
+                h += '<option value="' + t.id + '">' + esc(t.nome) + "</option>";
+              });
+            } else {
+              h =
+                '<option value="" disabled selected>Nenhum modelo salvo ainda</option>';
+            }
+            sel.innerHTML = h;
+          }
+
+          window.egVdLoadTpl = function () {
+            var sel = document.getElementById("vd-tpl-sel");
+            if (!sel || !sel.value) return;
+            var m = egModelos.video.find(function (x) {
+              return String(x.id) === sel.value;
+            });
+            if (!m) return;
+            var o;
+            try {
+              o = JSON.parse(m.dados);
+            } catch (e) {
               return;
-            user.splice(idx, 1);
-            setRstUserTpls(user);
-            renderRstTplSelect();
+            }
+            applyVdSnapshot(o);
+          };
+
+          window.egVdSaveTpl = function () {
+            if (!egApiOk()) return;
+            var nome = prompt("Nome do modelo:");
+            if (!nome || !nome.trim()) return;
+            nome = nome.trim();
+            var dados = JSON.stringify(readVdSnapshot());
+            var existing = egModelos.video.find(function (m) {
+              return m.nome === nome;
+            });
+            var req;
+            if (existing) {
+              if (!confirm('Já existe um modelo "' + nome + '". Substituir?'))
+                return;
+              req = egCloudPost({
+                action: "update",
+                id: existing.id,
+                nome: nome,
+                dados: dados,
+              });
+            } else {
+              req = egCloudPost({
+                action: "create",
+                aba: "video",
+                nome: nome,
+                dados: dados,
+              });
+            }
+            req
+              .then(function () {
+                return egRefreshModelos();
+              })
+              .then(function () {
+                alert('Modelo "' + nome + '" salvo!');
+              })
+              .catch(function () {
+                alert("Falha ao salvar. Verifique a conexão e tente de novo.");
+              });
+          };
+
+          window.egVdDelTpl = function () {
+            var sel = document.getElementById("vd-tpl-sel");
+            if (!sel || !sel.value) return;
+            if (!egApiOk()) return;
+            var m = egModelos.video.find(function (x) {
+              return String(x.id) === sel.value;
+            });
+            if (!m) return;
+            if (!confirm('Excluir o modelo "' + m.nome + '"?')) return;
+            egCloudPost({ action: "delete", id: m.id })
+              .then(function () {
+                return egRefreshModelos();
+              })
+              .catch(function () {
+                alert("Falha ao excluir. Verifique a conexão.");
+              });
           };
 
           // ===== RESTRITO BLOCKS =====
@@ -4410,6 +4634,8 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
           renderCaps();
           renderRstBlocks();
           renderRstTplSelect();
+          renderVdTplSelect();
+          egRefreshModelos();
           try {
             prevBanner();
           } catch (e) {

@@ -6,6 +6,32 @@
 
 ---
 
+## 2026-07-07 — Modelos salvos globalmente (Vídeo/Aula e Curso Restrito)
+
+- **Banco de dados em nuvem via Google Planilhas.** Agora dá para **salvar,
+  carregar, editar e excluir modelos** nas abas **Vídeo / Aula** e **Curso
+  Restrito**, com armazenamento **global** (todos que abrem o gerador veem os
+  mesmos modelos). Antes o Restrito salvava só em `localStorage` (por navegador);
+  migrado para a nuvem. A aba Vídeo ganhou a barra de modelos do zero.
+- **Ponte:** um **Google Apps Script** publicado como *app da Web* recebe/responde
+  JSON e usa uma planilha como banco (colunas `id | aba | nome | data | dados`).
+  O `dados` guarda o JSON do formulário (snapshot). CRUD por `action`
+  (`create`/`update`/`delete`/`list`).
+- **Camada no front (`index.html`):** helpers `egCloudList`/`egCloudPost`/
+  `egRefreshModelos`, cache `egModelos` e a constante **`EG_API`** (onde se cola a
+  URL do `/exec`). Snapshots: `readRstSnapshot`/`applyRstSnapshot` e
+  `readVdSnapshot`/`applyVdSnapshot` (inclui inputs `vd-*` + arrays `vdInst`,
+  `vdMat`, `vdCaps`; e no Restrito passou a salvar também o **Nome do Curso**).
+  Funções `egVdLoadTpl`/`egVdSaveTpl`/`egVdDelTpl` e as `egRst*Tpl` reescritas
+  para a nuvem. Presets do Restrito (`RST_PRESETS`) continuam locais e read-only.
+- **Editar:** salvar com um nome já existente **substitui** (update) o modelo.
+- **Segurança:** endpoint aberto (sem senha) — qualquer um com o gerador pode
+  gravar/excluir; leitura/uso é livre. Se `EG_API` estiver vazia, o recurso fica
+  inativo sem quebrar o resto (presets seguem funcionando).
+- **Setup (manual, uma vez):** planilha em branco → Extensões → Apps Script →
+  colar o script → Implantar como app da Web ("Qualquer pessoa") → copiar a URL
+  `/exec` → colar em `EG_API`.
+
 ## 2026-07-02 — Melhorias na aba Vídeo / Aula
 
 - **Reordenação de instrutores e materiais:** adicionadas setas ↑/↓ (helper
