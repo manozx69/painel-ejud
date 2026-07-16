@@ -6,6 +6,35 @@
 
 ---
 
+## 2026-07-16 — Importar de um código já pronto (colar do AVA) — todas as abas
+
+- **Engenharia reversa do HTML gerado.** Cada uma das 9 abas (Banner, Aviso,
+  Meet, Vídeo/Aula, Informações, Encerramento, Certificado, Avaliação e Curso
+  Restrito) ganhou um box recolhível **"Importar de um código já pronto (colar
+  do AVA)"** no topo do formulário. O usuário cola o HTML que já havia colado no
+  Moodle (mesmo sem ter salvado como modelo), clica em **Preencher campos** e o
+  formulário é preenchido automaticamente para só ajustar os detalhes.
+- **Como funciona:** `egImport(type)` faz `DOMParser` do HTML colado e um
+  parser por aba (`EG_IMPORTERS`) lê os valores de volta pelas classes estáveis
+  (`.eb-*`, `.ea-*`, `.em-*`, `.ev-*`, `.ei-*`, `.do-*`, `.ct-*`/`.vr-*`,
+  `.ar-*`, `.rs-*`) e regrava nos inputs/arrays, chamando os `render*` +
+  `egUpdatePreview`. Helpers: `egImpTxt`/`egImpBreaks` (preserva `\n`/`<br>`),
+  `egImpSmall` (separa `<small>`), `egImpIcon` (descobre o ícone Lucide casando
+  os paths do `<svg>` com `IC`), `egImpUnembed` (iframe→URL YouTube/Vimeo/Drive)
+  e `egImpBg` (lê a cor do `<style>` p/ deduzir o *tipo*: Atenção/Urgente/etc.).
+- **Cobre os campos repetíveis:** botões do Banner, instrutores (com balão de
+  info), materiais e capítulos do Vídeo, blocos de Informações (título/mensagem/
+  imagem/vídeo, com grid) e blocos do Restrito (mensagem/botão-link/botão-email,
+  este decodificando `to`/`su`/`body` do mailto do Gmail).
+- **Feedback e validação:** avisa se o campo está vazio, se o código não bate
+  com a aba ("Não reconheci este código para esta aba") ou em erro de leitura;
+  em sucesso limpa a caixa. Testado com round-trip (gera→cola→confere) nas 9
+  abas via jsdom.
+- **Limitações conhecidas:** o **Nome do Curso** do Restrito (`rst-curso`) não é
+  recuperável (só aparece já substituído dentro do mailto); em botões-e-mail com
+  `{CURSO}`, o assunto/corpo importado vem com o nome já trocado, não com o
+  placeholder.
+
 ## 2026-07-07 — Modelos salvos globalmente (Vídeo/Aula e Curso Restrito)
 
 - **Banco de dados em nuvem via Google Planilhas.** Agora dá para **salvar,

@@ -227,6 +227,72 @@
         #ejud-gerador .eg-copy.ok {
           background: #38a169;
         }
+        /* Importar código existente */
+        #ejud-gerador .eg-import {
+          margin-bottom: 16px;
+          border: 1px dashed #b7c0ce;
+          border-radius: 10px;
+          background: #f7f8fa;
+          overflow: hidden;
+        }
+        #ejud-gerador .eg-import > summary {
+          cursor: pointer;
+          padding: 12px 16px;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          color: #0f3d24;
+          list-style: none;
+          user-select: none;
+        }
+        #ejud-gerador .eg-import > summary::-webkit-details-marker {
+          display: none;
+        }
+        #ejud-gerador .eg-import > summary::before {
+          content: "▸ ";
+          color: #0d8f3e;
+        }
+        #ejud-gerador .eg-import[open] > summary::before {
+          content: "▾ ";
+        }
+        #ejud-gerador .eg-import-body {
+          padding: 0 16px 16px;
+        }
+        #ejud-gerador .eg-import-actions {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-top: 10px;
+        }
+        #ejud-gerador .eg-import-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          padding: 9px 20px;
+          border: none;
+          border-radius: 8px;
+          font-family: "Archivo", sans-serif;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          cursor: pointer;
+          background: #0d8f3e;
+          color: #fff;
+          transition: background 0.2s;
+        }
+        #ejud-gerador .eg-import-btn:hover {
+          background: #0a7a35;
+        }
+        #ejud-gerador .eg-import-fb {
+          font-size: 12px;
+          font-weight: 600;
+        }
+        #ejud-gerador .eg-import-fb.ok {
+          color: #0d8f3e;
+        }
+        #ejud-gerador .eg-import-fb.err {
+          color: #c53030;
+        }
         #ejud-gerador .eg-preview-tag {
           text-align: center;
           font-size: 10px;
@@ -602,6 +668,32 @@
 
       <!-- ====== BANNER TAB ====== -->
       <div class="eg-tab-content active" id="tab-banner">
+        <details class="eg-import">
+          <summary>Importar de um código já pronto (colar do AVA)</summary>
+          <div class="eg-import-body">
+            <p class="eg-hint">
+              Cole aqui o HTML de um template que você copiou do AVA/Moodle e
+              clique em Preencher — os campos abaixo serão preenchidos
+              automaticamente para você só ajustar o que quiser.
+            </p>
+            <textarea
+              class="eg-textarea"
+              id="imp-banner"
+              style="min-height: 90px"
+              placeholder="Cole aqui o código HTML..."
+            ></textarea>
+            <div class="eg-import-actions">
+              <button
+                type="button"
+                class="eg-import-btn"
+                onclick="egImport('banner')"
+              >
+                Preencher campos
+              </button>
+              <span class="eg-import-fb" id="imp-fb-banner"></span>
+            </div>
+          </div>
+        </details>
         <div class="eg-card">
           <div class="eg-card-h">
             <svg
@@ -872,6 +964,32 @@ Equipe de Suporte da Escola Judicial (EJUD).</textarea
 
       <!-- ====== AVISO TAB ====== -->
       <div class="eg-tab-content" id="tab-aviso">
+        <details class="eg-import">
+          <summary>Importar de um código já pronto (colar do AVA)</summary>
+          <div class="eg-import-body">
+            <p class="eg-hint">
+              Cole aqui o HTML de um template que você copiou do AVA/Moodle e
+              clique em Preencher — os campos abaixo serão preenchidos
+              automaticamente para você só ajustar o que quiser.
+            </p>
+            <textarea
+              class="eg-textarea"
+              id="imp-aviso"
+              style="min-height: 90px"
+              placeholder="Cole aqui o código HTML..."
+            ></textarea>
+            <div class="eg-import-actions">
+              <button
+                type="button"
+                class="eg-import-btn"
+                onclick="egImport('aviso')"
+              >
+                Preencher campos
+              </button>
+              <span class="eg-import-fb" id="imp-fb-aviso"></span>
+            </div>
+          </div>
+        </details>
         <div class="eg-card">
           <div class="eg-card-h">
             <svg
@@ -1019,6 +1137,32 @@ As inscrições para o curso PROJUDI Avançado estão abertas. Acesse o AVA EJUD
 
       <!-- ====== MEET TAB ====== -->
       <div class="eg-tab-content" id="tab-meet">
+        <details class="eg-import">
+          <summary>Importar de um código já pronto (colar do AVA)</summary>
+          <div class="eg-import-body">
+            <p class="eg-hint">
+              Cole aqui o HTML de um template que você copiou do AVA/Moodle e
+              clique em Preencher — os campos abaixo serão preenchidos
+              automaticamente para você só ajustar o que quiser.
+            </p>
+            <textarea
+              class="eg-textarea"
+              id="imp-meet"
+              style="min-height: 90px"
+              placeholder="Cole aqui o código HTML..."
+            ></textarea>
+            <div class="eg-import-actions">
+              <button
+                type="button"
+                class="eg-import-btn"
+                onclick="egImport('meet')"
+              >
+                Preencher campos
+              </button>
+              <span class="eg-import-fb" id="imp-fb-meet"></span>
+            </div>
+          </div>
+        </details>
         <div class="eg-card">
           <div class="eg-card-h">
             <svg
@@ -1150,6 +1294,32 @@ Acesse com sua conta institucional @tjam.jus.br</textarea
 
       <!-- ====== VIDEO TAB ====== -->
       <div class="eg-tab-content" id="tab-video">
+        <details class="eg-import">
+          <summary>Importar de um código já pronto (colar do AVA)</summary>
+          <div class="eg-import-body">
+            <p class="eg-hint">
+              Cole aqui o HTML de um template que você copiou do AVA/Moodle e
+              clique em Preencher — os campos abaixo serão preenchidos
+              automaticamente para você só ajustar o que quiser.
+            </p>
+            <textarea
+              class="eg-textarea"
+              id="imp-video"
+              style="min-height: 90px"
+              placeholder="Cole aqui o código HTML..."
+            ></textarea>
+            <div class="eg-import-actions">
+              <button
+                type="button"
+                class="eg-import-btn"
+                onclick="egImport('video')"
+              >
+                Preencher campos
+              </button>
+              <span class="eg-import-fb" id="imp-fb-video"></span>
+            </div>
+          </div>
+        </details>
         <div class="eg-card">
           <div class="eg-card-h">
             <svg
@@ -1381,6 +1551,32 @@ Acesse com sua conta institucional @tjam.jus.br</textarea
 
       <!-- ====== INFO TAB ====== -->
       <div class="eg-tab-content" id="tab-info">
+        <details class="eg-import">
+          <summary>Importar de um código já pronto (colar do AVA)</summary>
+          <div class="eg-import-body">
+            <p class="eg-hint">
+              Cole aqui o HTML de um template que você copiou do AVA/Moodle e
+              clique em Preencher — os campos abaixo serão preenchidos
+              automaticamente para você só ajustar o que quiser.
+            </p>
+            <textarea
+              class="eg-textarea"
+              id="imp-info"
+              style="min-height: 90px"
+              placeholder="Cole aqui o código HTML..."
+            ></textarea>
+            <div class="eg-import-actions">
+              <button
+                type="button"
+                class="eg-import-btn"
+                onclick="egImport('info')"
+              >
+                Preencher campos
+              </button>
+              <span class="eg-import-fb" id="imp-fb-info"></span>
+            </div>
+          </div>
+        </details>
         <div class="eg-card">
           <div class="eg-card-h">
             <svg
@@ -1538,6 +1734,32 @@ Acesse com sua conta institucional @tjam.jus.br</textarea
 
       <!-- ====== DADOS OBRIGATÓRIOS TAB ====== -->
       <div class="eg-tab-content" id="tab-encerramento">
+        <details class="eg-import">
+          <summary>Importar de um código já pronto (colar do AVA)</summary>
+          <div class="eg-import-body">
+            <p class="eg-hint">
+              Cole aqui o HTML de um template que você copiou do AVA/Moodle e
+              clique em Preencher — os campos abaixo serão preenchidos
+              automaticamente para você só ajustar o que quiser.
+            </p>
+            <textarea
+              class="eg-textarea"
+              id="imp-encerramento"
+              style="min-height: 90px"
+              placeholder="Cole aqui o código HTML..."
+            ></textarea>
+            <div class="eg-import-actions">
+              <button
+                type="button"
+                class="eg-import-btn"
+                onclick="egImport('encerramento')"
+              >
+                Preencher campos
+              </button>
+              <span class="eg-import-fb" id="imp-fb-encerramento"></span>
+            </div>
+          </div>
+        </details>
         <div class="eg-card">
           <div class="eg-card-h">
             <svg
@@ -1637,6 +1859,32 @@ Convidamos você a preencher alguns dados obrigatórios, necessários para a emi
 
       <!-- ====== CERTIFICADO TAB ====== -->
       <div class="eg-tab-content" id="tab-certificado">
+        <details class="eg-import">
+          <summary>Importar de um código já pronto (colar do AVA)</summary>
+          <div class="eg-import-body">
+            <p class="eg-hint">
+              Cole aqui o HTML de um template que você copiou do AVA/Moodle e
+              clique em Preencher — os campos abaixo serão preenchidos
+              automaticamente para você só ajustar o que quiser.
+            </p>
+            <textarea
+              class="eg-textarea"
+              id="imp-certificado"
+              style="min-height: 90px"
+              placeholder="Cole aqui o código HTML..."
+            ></textarea>
+            <div class="eg-import-actions">
+              <button
+                type="button"
+                class="eg-import-btn"
+                onclick="egImport('certificado')"
+              >
+                Preencher campos
+              </button>
+              <span class="eg-import-fb" id="imp-fb-certificado"></span>
+            </div>
+          </div>
+        </details>
         <div class="eg-card">
           <div class="eg-card-h">
             <svg
@@ -1752,6 +2000,32 @@ Localize a seção "CERTIFICADO ONLINE", clique em "Obter Certificado" e salve o
 
       <!-- ====== AVALIAÇÃO TAB ====== -->
       <div class="eg-tab-content" id="tab-avaliacao">
+        <details class="eg-import">
+          <summary>Importar de um código já pronto (colar do AVA)</summary>
+          <div class="eg-import-body">
+            <p class="eg-hint">
+              Cole aqui o HTML de um template que você copiou do AVA/Moodle e
+              clique em Preencher — os campos abaixo serão preenchidos
+              automaticamente para você só ajustar o que quiser.
+            </p>
+            <textarea
+              class="eg-textarea"
+              id="imp-avaliacao"
+              style="min-height: 90px"
+              placeholder="Cole aqui o código HTML..."
+            ></textarea>
+            <div class="eg-import-actions">
+              <button
+                type="button"
+                class="eg-import-btn"
+                onclick="egImport('avaliacao')"
+              >
+                Preencher campos
+              </button>
+              <span class="eg-import-fb" id="imp-fb-avaliacao"></span>
+            </div>
+          </div>
+        </details>
         <div class="eg-card">
           <div class="eg-card-h">
             <svg
@@ -1837,6 +2111,32 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
 
       <!-- ====== CURSO RESTRITO TAB ====== -->
       <div class="eg-tab-content" id="tab-restrito">
+        <details class="eg-import">
+          <summary>Importar de um código já pronto (colar do AVA)</summary>
+          <div class="eg-import-body">
+            <p class="eg-hint">
+              Cole aqui o HTML de um template que você copiou do AVA/Moodle e
+              clique em Preencher — os campos abaixo serão preenchidos
+              automaticamente para você só ajustar o que quiser.
+            </p>
+            <textarea
+              class="eg-textarea"
+              id="imp-restrito"
+              style="min-height: 90px"
+              placeholder="Cole aqui o código HTML..."
+            ></textarea>
+            <div class="eg-import-actions">
+              <button
+                type="button"
+                class="eg-import-btn"
+                onclick="egImport('restrito')"
+              >
+                Preencher campos
+              </button>
+              <span class="eg-import-fb" id="imp-fb-restrito"></span>
+            </div>
+          </div>
+        </details>
         <div class="eg-card">
           <div class="eg-card-h">
             <svg
@@ -4572,6 +4872,595 @@ Esta é uma avaliação de reação, uma oportunidade de você, estudante, avali
             document.getElementById("prev-restrito").innerHTML =
               genRestrito(false);
           }
+
+          // ===== IMPORTAR CÓDIGO (engenharia reversa do HTML gerado) =====
+          // Lê um HTML já pronto (colado do AVA) e preenche os campos da aba.
+          function egImpSet(id, val) {
+            var el = document.getElementById(id);
+            if (el) el.value = val == null ? "" : val;
+          }
+          // textContent preservando quebras de linha reais (ex.: seções pre-wrap)
+          function egImpTxt(el) {
+            if (!el) return "";
+            return el.textContent
+              .replace(/[ \t]+/g, " ")
+              .replace(/\s*\n\s*/g, "\n")
+              .trim();
+          }
+          // Converte <br> de volta em \n (campos de mensagem)
+          function egImpBreaks(el) {
+            if (!el) return "";
+            var html = el.innerHTML.replace(/<br\s*\/?>/gi, "\n");
+            var t = document.createElement("div");
+            t.innerHTML = html;
+            return t.textContent
+              .replace(/ /g, " ")
+              .replace(/[ \t]+/g, " ")
+              .replace(/[ \t]*\n[ \t]*/g, "\n")
+              .trim();
+          }
+          // Separa o texto principal do <small> dentro de um .eb-card-v
+          function egImpSmall(el) {
+            if (!el) return { main: "", sub: "" };
+            var sm = el.querySelector("small");
+            var sub = sm ? egImpTxt(sm) : "";
+            var c = el.cloneNode(true);
+            var s2 = c.querySelector("small");
+            if (s2) s2.parentNode.removeChild(s2);
+            return { main: egImpTxt(c), sub: sub };
+          }
+          // Descobre o nome do ícone Lucide a partir do <svg> (casa os paths com IC)
+          function egImpIcon(svgEl) {
+            if (!svgEl) return "";
+            var ps = svgEl.querySelectorAll("path");
+            if (!ps.length) return "";
+            var d = Array.prototype.map
+              .call(ps, function (p) {
+                return p.getAttribute("d") || "";
+              })
+              .join("|");
+            for (var k in IC) {
+              if (IC.hasOwnProperty(k) && IC[k] === d) return k;
+            }
+            return "";
+          }
+          // Converte um src de iframe (embed) de volta p/ URL utilizável
+          function egImpUnembed(src) {
+            if (!src) return "";
+            var m = src.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+            if (m) {
+              var u = "https://youtu.be/" + m[1];
+              var s = src.match(/[?&]start=(\d+)/);
+              return s ? u + "?t=" + s[1] : u;
+            }
+            m = src.match(/player\.vimeo\.com\/video\/(\d+)/);
+            if (m) return "https://vimeo.com/" + m[1];
+            return src;
+          }
+          // Extrai a cor de background de uma classe dentro do <style> colado
+          function egImpBg(raw, cls) {
+            var re = new RegExp(
+              "\\." + cls + "\\{[^}]*background:\\s*([^;}]+)",
+            );
+            var m = raw.match(re);
+            return m ? m[1].trim() : "";
+          }
+
+          var EG_IMPORTERS = {
+            banner: function (root, raw) {
+              var hero = root.querySelector(".eb-hero");
+              if (!hero) return false;
+              var modTxt = egImpTxt(root.querySelector(".eb-mod span"));
+              for (var k in MODS) {
+                if (MODS.hasOwnProperty(k) && MODS[k][0] === modTxt) {
+                  egImpSet("bn-mod", k);
+                  break;
+                }
+              }
+              egImpSet("bn-title", egImpTxt(root.querySelector(".eb-title")));
+              egImpSet("bn-subtitle", egImpTxt(root.querySelector(".eb-sub")));
+              Array.prototype.forEach.call(
+                root.querySelectorAll(".eb-metas .eb-meta"),
+                function (m) {
+                  var l = egImpTxt(m.querySelector(".eb-meta-l"));
+                  var val = egImpTxt(m.querySelector(".eb-meta-v"));
+                  if (l === "Período") {
+                    egImpSet("bn-tempo-tipo", "periodo");
+                    egImpSet("bn-tempo", val);
+                  } else if (l === "Data") {
+                    egImpSet("bn-tempo-tipo", "data");
+                    egImpSet("bn-tempo", val);
+                  } else if (l === "Carga Horária") {
+                    egImpSet("bn-ch", val);
+                  } else if (l === "Horário") {
+                    egImpSet("bn-horario", val);
+                  }
+                },
+              );
+              egImpSet("bn-tema", egImpTxt(root.querySelector(".eb-pname")));
+              egImpSet("bn-obj", egImpTxt(root.querySelector(".eb-obj-t")));
+              Array.prototype.forEach.call(
+                root.querySelectorAll(".eb-cards .eb-card"),
+                function (cd) {
+                  var l = egImpTxt(cd.querySelector(".eb-card-l"));
+                  var sv = egImpSmall(cd.querySelector(".eb-card-v"));
+                  if (l === "Período" || l === "Data") {
+                    if (sv.sub) egImpSet("bn-tempo-sub", sv.sub);
+                  } else if (l === "Local") {
+                    egImpSet("bn-local", sv.main);
+                    egImpSet("bn-local-sub", sv.sub);
+                  } else if (l === "Certificador") {
+                    egImpSet("bn-cert", sv.main);
+                    egImpSet("bn-cert-sub", sv.sub);
+                  }
+                },
+              );
+              egImpSet("bn-pub", egImpTxt(root.querySelector(".eb-pub-t")));
+              var ic = egImpIcon(root.querySelector(".eb-center svg"));
+              if (ic) {
+                selectedIcon = ic;
+                renderIconSelector();
+              }
+              var btns = root.querySelectorAll(".eb-btns .eb-act-btn");
+              if (btns.length) {
+                bnButtons.length = 0;
+                Array.prototype.forEach.call(btns, function (a) {
+                  bnButtons.push({
+                    label: egImpTxt(a),
+                    link: a.getAttribute("href") || "",
+                  });
+                });
+                renderBtns();
+              }
+              var fl = root.querySelector(".eb-float");
+              var chk = document.getElementById("bn-aviso-ativo");
+              if (fl) {
+                if (chk) chk.checked = true;
+                egImpSet(
+                  "bn-aviso-titulo",
+                  egImpTxt(fl.querySelector(".eb-float-header span")),
+                );
+                egImpSet(
+                  "bn-aviso-msg",
+                  egImpBreaks(fl.querySelector(".eb-float-body")),
+                );
+                var hbg = egImpBg(raw, "eb-float-header");
+                egImpSet(
+                  "bn-aviso-tipo",
+                  hbg === "#C53030"
+                    ? "urgente"
+                    : hbg === "#0D8F3E"
+                      ? "normal"
+                      : "atencao",
+                );
+              } else if (chk) {
+                chk.checked = false;
+              }
+              return true;
+            },
+
+            aviso: function (root) {
+              var card = root.querySelector(".ea-card");
+              if (!card) return false;
+              var hdr = egImpTxt(card.querySelector(".ea-header span"));
+              egImpSet(
+                "av-tipo",
+                hdr === "Atenção"
+                  ? "atencao"
+                  : hdr === "Aviso Urgente"
+                    ? "urgente"
+                    : "informativo",
+              );
+              var prazo = egImpTxt(card.querySelector(".ea-prazo"));
+              egImpSet("av-prazo", prazo.replace(/^Prazo:\s*/, ""));
+              egImpSet("av-titulo", egImpTxt(card.querySelector(".ea-body h3")));
+              egImpSet("av-msg", egImpBreaks(card.querySelector(".ea-body p")));
+              var btn = card.querySelector(".ea-btn");
+              egImpSet("av-btn-texto", btn ? egImpTxt(btn) : "");
+              egImpSet("av-btn-link", btn ? btn.getAttribute("href") || "" : "");
+              egImpSet("av-data", "");
+              egImpSet("av-horario", "");
+              egImpSet("av-local", "");
+              egImpSet("av-periodo", "");
+              Array.prototype.forEach.call(
+                card.querySelectorAll(".ea-infos .ea-info"),
+                function (inf) {
+                  var icon = egImpIcon(inf.querySelector("svg"));
+                  var val = egImpTxt(inf.querySelector("span"));
+                  if (icon === "calendar") egImpSet("av-data", val);
+                  else if (icon === "clock") egImpSet("av-horario", val);
+                  else if (icon === "map-pin") egImpSet("av-local", val);
+                  else if (icon === "calendar-range")
+                    egImpSet("av-periodo", val);
+                },
+              );
+              return true;
+            },
+
+            meet: function (root) {
+              var card = root.querySelector(".em-card");
+              if (!card) return false;
+              egImpSet("mt-titulo", egImpTxt(card.querySelector(".em-body h3")));
+              Array.prototype.forEach.call(
+                card.querySelectorAll(".em-grid .em-info"),
+                function (inf) {
+                  var l = egImpTxt(inf.querySelector(".em-info-l"));
+                  var val = egImpTxt(inf.querySelector(".em-info-v"));
+                  if (l === "Data") egImpSet("mt-data", val);
+                  else if (l === "Horário") egImpSet("mt-horario", val);
+                },
+              );
+              var btn = card.querySelector(".em-btn");
+              egImpSet("mt-link", btn ? btn.getAttribute("href") || "" : "");
+              egImpSet("mt-pauta", "");
+              egImpSet("mt-part", "");
+              egImpSet("mt-inst", "");
+              Array.prototype.forEach.call(
+                card.querySelectorAll(".em-section"),
+                function (sec) {
+                  var l = egImpTxt(sec.querySelector(".em-section-l"));
+                  var val = egImpTxt(sec.querySelector("p"));
+                  if (l === "Pauta / Temas") egImpSet("mt-pauta", val);
+                  else if (l === "Participantes Esperados")
+                    egImpSet("mt-part", val);
+                  else if (l === "Instruções de Acesso")
+                    egImpSet("mt-inst", val);
+                },
+              );
+              return true;
+            },
+
+            video: function (root) {
+              var card = root.querySelector(".ev-card");
+              if (!card) return false;
+              var hdr = egImpTxt(card.querySelector(".ev-header span"));
+              if (hdr === "Videoaula") {
+                egImpSet("vd-modulo", "");
+                egImpSet("vd-aula", "");
+              } else if (hdr.indexOf(" · ") > -1) {
+                var parts = hdr.split(" · ");
+                egImpSet("vd-modulo", parts[0]);
+                egImpSet("vd-aula", parts.slice(1).join(" · "));
+              } else {
+                egImpSet("vd-modulo", hdr);
+                egImpSet("vd-aula", "");
+              }
+              var ifr = card.querySelector(".ev-video iframe");
+              egImpSet(
+                "vd-url",
+                ifr ? egImpUnembed(ifr.getAttribute("src") || "") : "",
+              );
+              egImpSet("vd-titulo", egImpTxt(card.querySelector(".ev-body h3")));
+              egImpSet("vd-desc", egImpBreaks(card.querySelector(".ev-desc")));
+              egImpSet("vd-data", "");
+              egImpSet("vd-horario", "");
+              egImpSet("vd-local", "");
+              Array.prototype.forEach.call(
+                card.querySelectorAll(".ev-date"),
+                function (d) {
+                  var icon = egImpIcon(d.querySelector("svg"));
+                  var val = egImpTxt(d.querySelector("span"));
+                  if (icon === "calendar") egImpSet("vd-data", val);
+                  else if (icon === "clock") egImpSet("vd-horario", val);
+                  else if (icon === "map-pin") egImpSet("vd-local", val);
+                },
+              );
+              var badge = egImpTxt(card.querySelector(".ev-badge"));
+              egImpSet("vd-duracao", badge.replace(/^Duração:\s*/, ""));
+              // Capítulos
+              vdCaps.length = 0;
+              Array.prototype.forEach.call(
+                card.querySelectorAll(".ev-chapters .ev-chap"),
+                function (ch) {
+                  var tempo = egImpTxt(ch.querySelector(".ev-chap-t"));
+                  if (tempo === "▶") tempo = "";
+                  vdCaps.push({
+                    tempo: tempo,
+                    titulo: egImpTxt(ch.querySelector(".ev-chap-ttl")),
+                  });
+                },
+              );
+              // Instrutores (nome + balão de info)
+              var balloons = {};
+              Array.prototype.forEach.call(
+                card.querySelectorAll(".ev-balloon"),
+                function (b) {
+                  var strong = b.querySelector("strong");
+                  var nome = strong ? egImpTxt(strong) : "";
+                  var c = b.cloneNode(true);
+                  var s2 = c.querySelector("strong");
+                  if (s2) s2.parentNode.removeChild(s2);
+                  if (nome) balloons[nome] = egImpBreaks(c);
+                },
+              );
+              vdInst.length = 0;
+              Array.prototype.forEach.call(
+                card.querySelectorAll(".ev-inst-name"),
+                function (n) {
+                  var nome = egImpTxt(n);
+                  vdInst.push({ nome: nome, info: balloons[nome] || "" });
+                },
+              );
+              if (!vdInst.length) vdInst.push({ nome: "", info: "" });
+              // Materiais
+              vdMat.length = 0;
+              Array.prototype.forEach.call(
+                card.querySelectorAll(".ev-mats .ev-mat"),
+                function (mt) {
+                  var link = mt.querySelector(".ev-mat-link");
+                  if (link)
+                    vdMat.push({
+                      nome: egImpTxt(link),
+                      link: link.getAttribute("href") || "",
+                    });
+                  else
+                    vdMat.push({
+                      nome: egImpTxt(mt.querySelector(".ev-mat-text")),
+                      link: "",
+                    });
+                },
+              );
+              if (!vdMat.length) vdMat.push({ nome: "", link: "" });
+              renderInst();
+              renderMat();
+              renderCaps();
+              return true;
+            },
+
+            info: function (root) {
+              var card = root.querySelector(".ei-card");
+              if (!card) return false;
+              egImpSet("inf-data", "");
+              egImpSet("inf-horario", "");
+              egImpSet("inf-local", "");
+              egImpSet("inf-periodo", "");
+              Array.prototype.forEach.call(
+                card.querySelectorAll(".ei-infos .ei-info"),
+                function (inf) {
+                  var icon = egImpIcon(inf.querySelector("svg"));
+                  var val = egImpTxt(inf.querySelector("span"));
+                  if (icon === "calendar") egImpSet("inf-data", val);
+                  else if (icon === "clock") egImpSet("inf-horario", val);
+                  else if (icon === "map-pin") egImpSet("inf-local", val);
+                  else if (icon === "calendar-range")
+                    egImpSet("inf-periodo", val);
+                },
+              );
+              infoBlocks.length = 0;
+              Array.prototype.forEach.call(card.children, function (ch) {
+                if (ch.classList.contains("ei-title")) {
+                  infoBlocks.push({
+                    type: "titulo",
+                    value: egImpTxt(ch),
+                  });
+                } else if (ch.classList.contains("ei-msg")) {
+                  infoBlocks.push({
+                    type: "mensagem",
+                    value: egImpBreaks(ch),
+                  });
+                } else if (ch.classList.contains("ei-imgs")) {
+                  var grid = 2;
+                  ["1", "2", "3", "4"].forEach(function (n) {
+                    if (ch.classList.contains("ei-grid-" + n)) grid = +n;
+                  });
+                  var urls = [];
+                  Array.prototype.forEach.call(
+                    ch.querySelectorAll("img"),
+                    function (im) {
+                      urls.push(im.getAttribute("src") || "");
+                    },
+                  );
+                  if (!urls.length) urls = [""];
+                  infoBlocks.push({ type: "imagem", urls: urls, grid: grid });
+                } else if (ch.classList.contains("ei-video")) {
+                  var ifr = ch.querySelector("iframe");
+                  infoBlocks.push({
+                    type: "video",
+                    url: ifr
+                      ? egImpUnembed(ifr.getAttribute("src") || "")
+                      : "",
+                  });
+                }
+              });
+              renderInfoBlocks();
+              return true;
+            },
+
+            encerramento: function (root, raw) {
+              var card = root.querySelector(".do-card");
+              if (!card) return false;
+              var label = egImpTxt(card.querySelector(".do-header span"));
+              if (label === "Informação") egImpSet("enc-tipo", "normal");
+              else {
+                var bg = egImpBg(raw, "do-header");
+                egImpSet("enc-tipo", bg === "#B7791F" ? "atencao" : "urgente");
+              }
+              var prazo = egImpTxt(card.querySelector(".do-prazo"));
+              egImpSet("enc-prazo", prazo.replace(/^Prazo:\s*/, ""));
+              egImpSet(
+                "enc-titulo",
+                egImpTxt(card.querySelector(".do-content h3")),
+              );
+              egImpSet(
+                "enc-msg",
+                egImpBreaks(card.querySelector(".do-content p")),
+              );
+              var btn = card.querySelector(".do-btn");
+              egImpSet("enc-btn-texto", btn ? egImpTxt(btn) : "");
+              egImpSet(
+                "enc-btn-link",
+                btn ? btn.getAttribute("href") || "" : "",
+              );
+              return true;
+            },
+
+            certificado: function (root) {
+              var card = root.querySelector(".ct-card");
+              if (!card) return false;
+              egImpSet(
+                "cert-intro",
+                egImpTxt(card.querySelector(".ct-intro-text p")),
+              );
+              var steps = card.querySelectorAll(".ct-steps .ct-step-text");
+              egImpSet("cert-passo1", steps[0] ? egImpTxt(steps[0]) : "");
+              egImpSet("cert-passo2", steps[1] ? egImpTxt(steps[1]) : "");
+              var mail = card.querySelector(".ct-contact a");
+              egImpSet(
+                "cert-email",
+                mail
+                  ? (mail.getAttribute("href") || "").replace(/^mailto:/, "") ||
+                      egImpTxt(mail)
+                  : "",
+              );
+              egImpSet("cert-criterio", "");
+              egImpSet("cert-perfil-link", "");
+              Array.prototype.forEach.call(
+                root.querySelectorAll(".vr-card"),
+                function (vr) {
+                  var h = egImpTxt(vr.querySelector("h3"));
+                  if (h === "Critério de Aprovação") {
+                    var st = vr.querySelector("p strong");
+                    egImpSet("cert-criterio", st ? egImpTxt(st) : "");
+                  } else if (h === "Verifique seu Perfil") {
+                    var b = vr.querySelector(".vr-btn");
+                    egImpSet(
+                      "cert-perfil-link",
+                      b ? b.getAttribute("href") || "" : "",
+                    );
+                  }
+                },
+              );
+              return true;
+            },
+
+            avaliacao: function (root) {
+              var card = root.querySelector(".ar-card");
+              if (!card) return false;
+              egImpSet(
+                "aval-titulo",
+                egImpTxt(card.querySelector(".ar-content h3")),
+              );
+              egImpSet(
+                "aval-msg",
+                egImpBreaks(card.querySelector(".ar-content p")),
+              );
+              egImpSet("aval-tempo", egImpTxt(card.querySelector(".ar-badge")));
+              var btn = card.querySelector(".ar-btn");
+              egImpSet("aval-btn-texto", btn ? egImpTxt(btn) : "");
+              egImpSet("aval-link", btn ? btn.getAttribute("href") || "" : "");
+              return true;
+            },
+
+            restrito: function (root, raw) {
+              var card = root.querySelector(".rs-card");
+              if (!card) return false;
+              var hdr = egImpBg(raw, "rs-header");
+              egImpSet(
+                "rst-tipo",
+                hdr === "#975A16"
+                  ? "atencao"
+                  : hdr === "#9B2C2C"
+                    ? "urgente"
+                    : "restrito",
+              );
+              egImpSet(
+                "rst-titulo",
+                egImpTxt(card.querySelector(".rs-content h3")),
+              );
+              var content = card.querySelector(".rs-content");
+              rstBlocks.length = 0;
+              if (content) {
+                Array.prototype.forEach.call(content.children, function (ch) {
+                  if (ch.classList.contains("rs-msg")) {
+                    rstBlocks.push({
+                      type: "mensagem",
+                      value: egImpBreaks(ch),
+                    });
+                  } else if (ch.classList.contains("rs-btn-wrap")) {
+                    var a = ch.querySelector("a");
+                    if (!a) return;
+                    var href = a.getAttribute("href") || "";
+                    var texto = egImpTxt(a);
+                    if (href.indexOf("mail.google.com/mail") > -1) {
+                      var to = (href.match(/[?&]to=([^&]*)/) || [])[1] || "";
+                      var su = (href.match(/[?&]su=([^&]*)/) || [])[1] || "";
+                      var body = (href.match(/[?&]body=([^&]*)/) || [])[1] || "";
+                      function dec(s) {
+                        try {
+                          return decodeURIComponent(s);
+                        } catch (e) {
+                          return s;
+                        }
+                      }
+                      rstBlocks.push({
+                        type: "botao-email",
+                        texto: texto,
+                        emails: dec(to),
+                        assunto: dec(su),
+                        corpo: dec(body),
+                      });
+                    } else {
+                      rstBlocks.push({
+                        type: "botao-link",
+                        texto: texto,
+                        link: href,
+                      });
+                    }
+                  }
+                });
+              }
+              renderRstBlocks();
+              return true;
+            },
+          };
+
+          function egImpFeedback(type, ok, msg) {
+            var fb = document.getElementById("imp-fb-" + type);
+            if (!fb) return;
+            fb.className = "eg-import-fb " + (ok ? "ok" : "err");
+            fb.textContent = msg;
+            setTimeout(function () {
+              if (fb.textContent === msg) {
+                fb.textContent = "";
+                fb.className = "eg-import-fb";
+              }
+            }, 5000);
+          }
+
+          window.egImport = function (type) {
+            var ta = document.getElementById("imp-" + type);
+            var raw = ta ? ta.value.trim() : "";
+            if (!raw) {
+              egImpFeedback(type, false, "Cole o código primeiro.");
+              return;
+            }
+            var fn = EG_IMPORTERS[type];
+            if (!fn) return;
+            var doc;
+            try {
+              doc = new DOMParser().parseFromString(raw, "text/html");
+            } catch (e) {
+              egImpFeedback(type, false, "Código inválido.");
+              return;
+            }
+            try {
+              var ok = fn(doc.body, raw);
+              if (ok === false) {
+                egImpFeedback(
+                  type,
+                  false,
+                  "Não reconheci este código para esta aba. Confira se colou o template certo.",
+                );
+                return;
+              }
+              egUpdatePreview(type);
+              egImpFeedback(type, true, "Campos preenchidos! Ajuste o que quiser.");
+              if (ta) ta.value = "";
+            } catch (e) {
+              console.error("Import " + type + ":", e);
+              egImpFeedback(type, false, "Erro ao ler o código.");
+            }
+          };
 
           // ===== COPY =====
           window.egCopy = function (type) {
